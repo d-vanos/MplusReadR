@@ -1,0 +1,16 @@
+Package: MplusReadR
+Title: Tabulate and Format Mplus Output
+Version: 0.0.0.9000
+Imports: MplusAutomation, htmlTable, dplyr, magrittr
+Authors@R: 
+    person(given = "Danielle",
+           family = "van Os",
+           role = c("aut", "cre"),
+           email = "dvanos@outlook.com.au",
+           comment = c(ORCID = "0000-0001-6502-1652"))
+Description: The MplusReadR package formulates MPlus output into APA-formatted tables, ready for inclusion in scientific publications. Users can adjust the variables and parameters displayed. It also includes helper functions which check whether models converged, and indicates what variables and parameters are available. 
+License: `use_mit_license()`
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1
