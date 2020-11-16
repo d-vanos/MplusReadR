@@ -2,3 +2,4 @@
 
 import(dplyr)
 import(tidyr)
+importFrom(htmlTable,addHtmlTableStyle)

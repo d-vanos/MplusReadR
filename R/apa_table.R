@@ -4,6 +4,7 @@
 #' Creates APA-style tables containing output from multiple Mplus objects.
 #'
 #' @import tidyr
+#' @importFrom htmlTable addHtmlTableStyle
 #'
 #' @param tidy_data A tidy dataset of Mplus models, created by [MplusReadR::tidy_compile()]
 #' @param model_type One of 'null', 'univariate', or 'bivariate'.
@@ -49,12 +50,6 @@ apa_table <- function(tidy_data, model_type){
       select(-variable) %>%
       pivot_wider(names_from = "param", values_from = "value")
   }
-
-  # Removing any NULL columns that are generated e.g., for unstandardized output
-  not_all_null <- function(x) any(!is.null(x))
-  data %>%
-    select_if(not_all_null)
-
 
   # Remove empty columns
   data <- data[!sapply(data, function(x) all(is.na(x)))]
