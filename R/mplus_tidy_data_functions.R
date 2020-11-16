@@ -14,7 +14,7 @@
 #'
 #' @seealso \code{\link[MplusAutomation]{readModels}}
 
-mplus_tidy_null <- function (Mplus_file, model_n = 1) {
+tidy_null <- function (Mplus_file, model_n = 1) {
 
   # Create a list of variables originally in the output
   # The variables are selected from the 'usevar' variable from the first model in the output
@@ -28,9 +28,11 @@ mplus_tidy_null <- function (Mplus_file, model_n = 1) {
     unlist() %>%
     .[. != "PID"]
 
-  orig_var = paste0(orig_var, collapse = "|")
-  orig_var = gsub(pattern = "obs", replacement = "", x = orig_var)
-  orig_var = strsplit(orig_var, split = '|', fixed = TRUE)[[1]]
+  if(!is.null(orig_var)){
+    orig_var = paste0(orig_var, collapse = "|")
+    orig_var = gsub(pattern = "obs", replacement = "", x = orig_var)
+    orig_var = strsplit(orig_var, split = '|', fixed = TRUE)[[1]]
+  }
 
   # no variables are specified in a master file, so instead the 'orig_var' for a master file will just be all the unique
   # files in the list of Mplus files.
@@ -89,7 +91,7 @@ mplus_tidy_null <- function (Mplus_file, model_n = 1) {
 #'
 #' @seealso \code{\link[MplusAutomation]{readModels}}
 
-mplus_tidy_univar <- function (Mplus_file, model_n = 1, standardised = TRUE) {
+tidy_univar <- function (Mplus_file, model_n = 1, standardised = TRUE) {
 
   # Create a list of variables originally in the output
   orig_var <- Mplus_file[[model_n]]$input$variable$usevar  %>%
@@ -98,9 +100,11 @@ mplus_tidy_univar <- function (Mplus_file, model_n = 1, standardised = TRUE) {
     unlist() %>%
     .[!. %in% c("PID")]
 
-  orig_var = paste0(orig_var, collapse = "|")
-  orig_var = gsub(pattern = "obs", replacement = "", x = orig_var)
-  orig_var = strsplit(orig_var, split = '|', fixed = TRUE)[[1]]
+  if(!is.null(orig_var)){
+    orig_var = paste0(orig_var, collapse = "|")
+    orig_var = gsub(pattern = "obs", replacement = "", x = orig_var)
+    orig_var = strsplit(orig_var, split = '|', fixed = TRUE)[[1]]
+  }
 
   # no variables are specified in a master file, so instead the 'orig_var' for a master file will just be all the unique
   # files in the list of Mplus files.
@@ -201,7 +205,7 @@ mplus_tidy_univar <- function (Mplus_file, model_n = 1, standardised = TRUE) {
 #'
 #' @seealso \code{\link[MplusAutomation]{readModels}}
 
-mplus_tidy_bivar <- function (Mplus_file, model_n = 1, standardised = TRUE) {
+tidy_bivar <- function (Mplus_file, model_n = 1, standardised = TRUE) {
 
   # Create a list of variables originally in the output
   orig_var <- Mplus_file[[1]]$input$variable$usevar  %>%
@@ -210,9 +214,11 @@ mplus_tidy_bivar <- function (Mplus_file, model_n = 1, standardised = TRUE) {
     unlist() %>%
     .[!. %in% c("PID", "Z")]
 
-  orig_var = paste0(orig_var, collapse = "|")
-  orig_var = gsub(pattern = "obs", replacement = "", x = orig_var)
-  orig_var = strsplit(orig_var, split = '|', fixed = TRUE)[[1]]
+  if(!is.null(orig_var)){
+    orig_var = paste0(orig_var, collapse = "|")
+    orig_var = gsub(pattern = "obs", replacement = "", x = orig_var)
+    orig_var = strsplit(orig_var, split = '|', fixed = TRUE)[[1]]
+  }
 
   # Create a table which contains the relevant information
   if (standardised == TRUE) {
@@ -273,13 +279,7 @@ mplus_tidy_bivar <- function (Mplus_file, model_n = 1, standardised = TRUE) {
 
 ##### ---- Tidy data - all models ---- #####
 
-mplus_tidy_data <- function (Mplus_file, model_n = 1, model_type, rounding = 2, parameters = NULL, variables = NULL, paramheaders = NULL, standardised = TRUE, outcomes = NULL) {
-
-  # model <- ifelse (model_type == "null", "NULL",
-  #                  ifelse (model_type == "univariate", "AR_",
-  #                          ifelse (model_type == "bivariate", "panaVAR")))
-  #
-  # file_type <- Mplus_file[[model_n]]$summaries$Filename
+tidy_data <- function (Mplus_file, model_type, model_n = 1, rounding = 2, parameters = NULL, variables = NULL, paramheaders = NULL, standardised = TRUE, outcomes = NULL) {
 
   # Warning the user if they didn't specify an appropriate model
   if (!model_type %in% c("null", "univariate", "bivariate")) {
@@ -287,15 +287,9 @@ mplus_tidy_data <- function (Mplus_file, model_n = 1, model_type, rounding = 2, 
     warning("model type should be one of 'null', 'univariate', or 'bivariate'.")
   }
 
-  # Warning the user if their data doesn't match the model type they've specified (DEBUG)
-  # else if (grepl(model, file_type) == FALSE) {
-  #
-  #   warning("The model you have specified is not appropriate for the type of Mplus file you have specified. As a result, the tidy data displayed (if any) will be inaccurate.")
-  # }
-
   else if (model_type == "null") {
 
-    data <- mplus_tidy_null(Mplus_file, model_n)
+    data <- tidy_null(Mplus_file, model_n)
 
     #If the user doesn't specify a paramheader, presume "New.Additional Parameters" (only for null models)
     if (is.null(paramheaders)) {
@@ -307,7 +301,7 @@ mplus_tidy_data <- function (Mplus_file, model_n = 1, model_type, rounding = 2, 
 
   else if (model_type == "univariate") {
 
-    data <- mplus_tidy_univar(Mplus_file, model_n, standardised = standardised)
+    data <- tidy_univar(Mplus_file, model_n, standardised = standardised)
 
     # If the user doesn't specify a paramheader, presume "Z.ON" (only for univariate and bivariate models)
     if (is.null(paramheaders)) {
@@ -320,7 +314,7 @@ mplus_tidy_data <- function (Mplus_file, model_n = 1, model_type, rounding = 2, 
 
   else if (model_type == "bivariate") {
 
-    data <- mplus_tidy_bivar(Mplus_file, model_n, standardised = standardised)
+    data <- tidy_bivar(Mplus_file, model_n, standardised = standardised)
 
     # If the user doesn't specify a paramheader, presume "Z.ON" (only for univariate and bivariate models)
     if (is.null(paramheaders)) {
