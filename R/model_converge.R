@@ -41,7 +41,7 @@ model_converge <- function(Mplus_file){
 # Check whether each model in an Mplus list converged and remove those that did not
 remove_no_converge <- function(Mplus_model){
   # Create a table of values indicating which models did or did not converge
-  data <- mplus_model_converge(Mplus_model)
+  data <- model_converge(Mplus_model)
 
   # Create a list of models that did not converge and save names
   not_converged <- as_vector(data %>%
