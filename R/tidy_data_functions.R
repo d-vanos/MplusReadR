@@ -277,12 +277,54 @@ tidy_bivar <- function (Mplus_file, model_n = 1, standardised = TRUE) {
   return(data)
 }
 
+
+
+
+#### Other models ####
+tidy_simul <- function (Mplus_file, model_n = 1, standardised = TRUE) {
+
+  # Create a table which contains the relevant information
+  if (standardised == TRUE) {
+
+    data <- as_tibble(Mplus_file[[model_n]]$parameters$stdyx.standardized)
+  }
+  else if (standardised == FALSE) {
+
+    data <- as_tibble(Mplus_file[[model_n]]$parameters$unstandardized)
+  }
+
+  data <- data %>%
+    mutate(dataset_title = as.character(names(Mplus_file)[[model_n]]),
+           outcome = paramHeader,
+           variable = "predictor") %>%
+    select(dataset_title, paramHeader, outcome, param, est, posterior_sd, lower_2.5ci, upper_2.5ci, variable)
+
+
+  if(standardised == TRUE){
+    # Add R2 as a param
+    r2_data <- as_tibble(Mplus_file[[model_n]]$parameters$r2) %>%
+      mutate(dataset_title = as.character(data[1, 'dataset_title']),
+             paramHeader = "R2",
+             outcome = param,
+             param = "R2",
+             variable = "predictor",
+             posterior_sd = NA) %>%
+      select(dataset_title, paramHeader, outcome, param, est, posterior_sd, lower_2.5ci, upper_2.5ci, variable) #%>%
+      #slice((length(.)/2 + 1): length(.)) # Only saves the last half
+
+    data <- rbind(data, r2_data)
+  }
+
+  return(data)
+}
+
+
 ##### ---- Tidy data - all models ---- #####
 
 tidy_data <- function (Mplus_file, model_type, model_n = 1, rounding = 2, parameters = NULL, variables = NULL, paramheaders = NULL, standardised = TRUE, outcomes = NULL) {
 
   # Warning the user if they didn't specify an appropriate model
-  if (!model_type %in% c("null", "univariate", "bivariate")) {
+  if (!model_type %in% c("null", "univariate", "bivariate", "other")) {
 
     warning("model type should be one of 'null', 'univariate', or 'bivariate'.")
   }
@@ -324,6 +366,23 @@ tidy_data <- function (Mplus_file, model_type, model_n = 1, rounding = 2, parame
     }
   }
 
+  else if (model_type == "other"){
+
+    data <- tidy_simul(Mplus_file, model_n, standardised = standardised)
+
+    if(is.null(paramheaders)){
+
+      data <- data %>%
+        filter(paramHeader %in% c("G_REAP.ON", "G_SUPP.ON", "G_RUM.ON", "R2")) %>%
+        mutate(param = ifelse(param %in% c("REAP", "SUPP", "RUM"), "MEAN",
+                              ifelse(param %in% c("RENA", "SUNA", "RUNA"), "SLOPE", param)),
+               outcome = str_replace(outcome, ".ON", "")) %>%
+        filter(outcome %in% c("G_REAP", "G_SUPP", "G_RUM", "R2")) %>%
+        select(-paramHeader)
+    }
+  }
+
+
   # Rounding
   # Printing a warning if the user enters a letter
   if (!is.numeric(rounding)) {
@@ -334,7 +393,7 @@ tidy_data <- function (Mplus_file, model_type, model_n = 1, rounding = 2, parame
   # Printing a warning if they try to round to more than 3 decimal places (which is what the Mplus Output is)
   else if (rounding > 3) {
     ''
-    warning("Rounding error: It is not possible to print a dataset with more than 3 decimal places. Reverting to the default (2 decimal places).")
+    warning("Rounding error: It is not possible to print a dataset with more than 3 decimal places. Reverting to default (2 decimal places).")
   }
 
   # Applying the user's rounding, if specified, or use the default of 2.
@@ -365,8 +424,8 @@ tidy_data <- function (Mplus_file, model_type, model_n = 1, rounding = 2, parame
 
   else if(is.null(variables)){
 
-    data <- data %>%
-      filter(variable != "Z.")
+      data <- data %>%
+        filter(variable != "Z.")
   }
 
   # paramHeader
