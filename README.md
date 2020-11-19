@@ -6,11 +6,11 @@ MplusReadR formats Mplus output from multiple models into APA-style tables and t
 ```R
 # Install and load devtools from CRAN 
 install.packages("devtools")
-load(devtools)
+library(devtools)
 
 # Install MplusReadR from Github 
 install_github("d-vanos/MplusReadR")
-load(MplusReadR)
+library(MplusReadR)
 ```
 The latest version of the package can be installed by re-running `install_github("d-vanos/MplusReadR")`. 
 
