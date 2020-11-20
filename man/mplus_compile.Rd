@@ -2,7 +2,7 @@
 % Please edit documentation in R/NEW_tidy_compile.R
 \name{mplus_compile}
 \alias{mplus_compile}
-\title{Compile Mplus Data}
+\title{Compile Mplus Data (NEW)}
 \usage{
 mplus_compile(
   Mplus_file,
@@ -11,7 +11,8 @@ mplus_compile(
   parameter = NULL,
   display = "all",
   standardized = TRUE,
-  converged = TRUE
+  converged = TRUE,
+  define = FALSE
 )
 }
 \arguments{
@@ -28,9 +29,11 @@ Defaults to all available parameters.}
 
 \item{display}{How many columns should be displayed. Choose from "all", "minimal", "descriptives" or manually specify which columns should be displayed.}
 
+\item{standardized}{Whether standardised or unstandardised output should be used for univariate and bivariate models. Defaults to TRUE.}
+
 \item{converged}{If TRUE, removes non-converged models.}
 
-\item{standardised}{Whether standardised or unstandardised output should be used for univariate and bivariate models. Defaults to TRUE.}
+\item{define}{Displays a column containing information from the 'define' input in the Mplus file. Defaults to FALSE.}
 }
 \value{
 A tibble containing specified variables and parameters from multiple Mplus models.

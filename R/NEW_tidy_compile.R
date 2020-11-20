@@ -13,21 +13,25 @@
 #' @param display How many columns should be displayed. Choose from "all", "minimal", "descriptives" or manually specify which columns should be displayed.
 #' @param standardized Whether standardised or unstandardised output should be used for univariate and bivariate models. Defaults to TRUE.
 #' @param converged If TRUE, removes non-converged models.
+#' @param define Displays a column containing information from the 'define' input in the Mplus file. Defaults to FALSE.
 #' @return A tibble containing specified variables and parameters from multiple Mplus models.
 
 # This function takes the tidy data function and applies it to multiple mplus files in an mplus model list
-mplus_compile <- function(Mplus_file, rounding = 2, param_header = NULL, parameter = NULL, display = "all", standardized = TRUE, converged = TRUE){
+mplus_compile <- function(Mplus_file, rounding = 2, param_header = NULL, parameter = NULL, display = "all", standardized = TRUE, converged = TRUE, define = FALSE){
 
   # Initialising the variable used in the loop below
   data <- tibble()
 
   # Remove non-converged models
   if(converged == TRUE){
-    Mplus_file <- remove_no_converge(Mplus_file)
+    Mplus_file_clean <- remove_no_converge(Mplus_file)
+    if(length(Mplus_file_clean) < length(Mplus_file)){
+      message(paste("It appears",(length(Mplus_file)-length(Mplus_file_clean)), "models did not converge. These were removed. Run model_converge(Mplus_file) to check these."))
+    }
   }
 
   if(converged == FALSE){
-    none_converged_models <- Mplus_file %>%
+    none_converged_models <- Mplus_file_clean %>%
         model_converge() %>%
         filter(converged == FALSE)
 
@@ -38,9 +42,10 @@ mplus_compile <- function(Mplus_file, rounding = 2, param_header = NULL, paramet
 
 
   # Add all the data from all the tables into one big dataset
-  for(n in 1:length(Mplus_file)){
+  for(n in 1:length(Mplus_file_clean)){
 
-    temp_data <- mplus_tidy(Mplus_file, model_n = n, rounding = rounding, parameter = parameter, param_header = param_header, display = display, standardized = standardized)
+    temp_data <- mplus_tidy(Mplus_file_clean, model_n = n, rounding = rounding, parameter = parameter, param_header = param_header,
+                            display = display, standardized = standardized, define = define)
     data <- rbind(data, temp_data)
   }
 
