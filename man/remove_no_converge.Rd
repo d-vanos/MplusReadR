@@ -16,5 +16,5 @@ The original Mplus output excluding the non-converged models.
 Checks whether any models in the list of Mplus models did not converge, and removes those that did not converge.
 }
 \seealso{
-\code{\link[MplusReadR]{model_converge}
+\code{\link[MplusReadR]{model_converge}}
 }
