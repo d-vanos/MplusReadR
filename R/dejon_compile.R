@@ -1,6 +1,6 @@
 
 
-#' Compile Mplus Data
+#' Compile Mplus Data for Dejonckheere Project
 #'
 #' Creates a tidy dataset containing analyses from multiple Mplus objects. This can then be used in the mplus_apa_table() function, or can be saved separately.
 #'
@@ -19,14 +19,14 @@
 #' @return A tibble containing specified variables and parameters from multiple Mplus models.
 
 # This function takes the tidy data function and applies it to multiple mplus files in an mplus model list
-tidy_compile <- function(Mplus_file, model_type, rounding = 2, parameters = NULL, variables = NULL, paramheaders = NULL, outcomes = NULL, standardised = TRUE){
+dejon_compile <- function(Mplus_file, model_type, rounding = 2, parameters = NULL, variables = NULL, paramheaders = NULL, outcomes = NULL, standardised = TRUE){
 
   # Initialising the variable used in the loop below
   data <- tibble()
 
   # Add all the data from all the tables into one big dataset
   for(n in 1:length(Mplus_file)){
-      temp_data <- tidy_data(Mplus_file, model_n = n, model_type = model_type, rounding = rounding, parameters = parameters,
+      temp_data <- dejon_tidy(Mplus_file, model_n = n, model_type = model_type, rounding = rounding, parameters = parameters,
                                    variables = variables, paramheaders = paramheaders, outcomes = outcomes, standardised = standardised)
       data <- rbind(data, temp_data)
   }
