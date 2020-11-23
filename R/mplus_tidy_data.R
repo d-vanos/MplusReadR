@@ -60,12 +60,6 @@ mplus_tidy <- function(Mplus_file, model_n = 1, param_header = NULL, parameter =
 
 
   #### Add dataset info ####
-  title <- as.character(Mplus_file[[model_n]]$input$title)
-
-  if(title == ""){
-    warning("This model or set of models does not appear to have a title. Displaying file name instead.")
-  }
-
   data <- data %>%
     mutate(dataset_title = gsub(".*\\.(.*)\\..*", "\\1", as.character(names(Mplus_file)[[model_n]])),
            `T` = Mplus_file[[model_n]]$summaries$Observations,
@@ -74,6 +68,10 @@ mplus_tidy <- function(Mplus_file, model_n = 1, param_header = NULL, parameter =
 
   # Define statement
   if(define == TRUE){
+    if(display != "all" && ("define" %in% display == FALSE)){
+      warning("You have specified display = TRUE but have not selected 'define' as a column.")
+    }
+
     data <- data %>%
       mutate(define = paste(trimws(Mplus_file[[model_n]]$input$define), collapse = "|"))
     check <- trimws(Mplus_file[[model_n]]$input$define)
@@ -127,6 +125,11 @@ mplus_tidy <- function(Mplus_file, model_n = 1, param_header = NULL, parameter =
   # If the user wants to specify the columns themselves
   else {
 
+    # Dataset is created in `mplus_compile()` so if it is mentioned here it must be removed
+    if("dataset" %in% display){
+      display <- display[display != "dataset"]
+    }
+
     # Remove unwanted columns if they exist
     if(length(setdiff(display, colnames(data))) == 0){
 
@@ -136,14 +139,15 @@ mplus_tidy <- function(Mplus_file, model_n = 1, param_header = NULL, parameter =
       }
 
       else {
-      data <- data %>% select(display)
+        # Filter by display columns
+        data <- data %>% select(display)
       }
     }
 
     # If the columns do not exist (there are names in do_not_display that are not column names)
     else if(length(setdiff(display, colnames(data))) > 0){
 
-      warning("The columns you have specified to do not appear to be present in the dataset. Displaying all columns.")
+      warning(paste("The following columns you have specified to do not appear to be present in the dataset:", setdiff(display, colnames(data)), "Displaying all columns."))
 
     }
   }
@@ -155,10 +159,10 @@ mplus_tidy <- function(Mplus_file, model_n = 1, param_header = NULL, parameter =
 
   if(!is.null(param_header)){
 
-      present_params <- intersect(param_header, data$paramHeader)
+      present_paramheaders <- intersect(param_header, data$paramHeader)
 
       data <- data %>%
-        filter(paramHeader %in% present_params)
+        filter(paramHeader %in% present_paramheaders)
   }
 
 
@@ -172,15 +176,16 @@ mplus_tidy <- function(Mplus_file, model_n = 1, param_header = NULL, parameter =
     # Warn user if parameter does not exist
     if(length(setdiff(parameter, data$param)) > 0){
       warning(paste0("Some of the parameters specified do not exist in the dataset.
-                     These are: ", setdiff(parameter, data$param),". Displaying all parameters."))
+                     These are: ", setdiff(parameter, data$param),".
+                     Only displaying selected parameters which are present in the dataset."))
+
+      present_params <- intersect(parameter, data$param)
     }
 
     # Filter by parameter if it exists
-    else if (length(setdiff(parameter, data$param)) == 0){
 
       data <- data %>%
         filter(param %in% parameter)
-    }
   }
 
 
