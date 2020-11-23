@@ -17,19 +17,6 @@ mplus_tidy <- function(Mplus_file, model_n = 1, param_header = NULL, parameter =
 
     data <- as_tibble(Mplus_file[[model_n]]$parameters$stdyx.standardized)
 
-    # Add R2 values if dataset was successfully created
-    if(nrow(data) >= 1){
-
-      r2_data <- as_tibble(Mplus_file[[model_n]]$parameters$r2)
-
-      # Add in columns to r2_data so it matches data (for binding)
-      r2_colnames <- setdiff(colnames(data), colnames(r2_data))
-      r2_data[r2_colnames] <- NA
-      r2_data["paramHeader"] <- "R2"
-
-      # Bind R2 to the rest of the dataset
-      data <- rbind(data, r2_data)
-    }
 
     # Warning the user if there is no unstandardized output
     if(nrow(data) < 1){
@@ -44,6 +31,9 @@ mplus_tidy <- function(Mplus_file, model_n = 1, param_header = NULL, parameter =
 
     data <- as_tibble(Mplus_file[[model_n]]$parameters$unstandardized)
 
+    # Add within-level R2 values if dataset was successfully created
+    r2_data <- as_tibble(Mplus_file[[model_n]]$parameters$r2)
+
     # Warning the user if there is no unstandardized output
     if(nrow(data) < 1){
 
@@ -53,6 +43,20 @@ mplus_tidy <- function(Mplus_file, model_n = 1, param_header = NULL, parameter =
     }
   }
 
+    #### Add R2 ####
+    # Add R2 values if dataset was successfully created
+    if(nrow(data) >= 1){
+
+      r2_data <- as_tibble(Mplus_file[[model_n]]$parameters$r2)
+
+      # Add in columns to r2_data so it matches data (for binding)
+      r2_colnames <- setdiff(colnames(data), colnames(r2_data))
+      r2_data[r2_colnames] <- NA
+      r2_data["paramHeader"] <- "R2"
+
+      # Bind R2 to the rest of the dataset
+      data <- rbind(data, r2_data)
+    }
 
 
   #### Add dataset info ####
@@ -151,16 +155,10 @@ mplus_tidy <- function(Mplus_file, model_n = 1, param_header = NULL, parameter =
 
   if(!is.null(param_header)){
 
-    if(length(setdiff(param_header, data$paramHeader)) > 0){
-      warning(paste0("Some of the paramHeaders specified do not exist in the dataset.
-                     These are: ", setdiff(paramHeader, data$paramHeader),". Displaying all paramHeaders."))
-    }
-
-    else if (length(setdiff(param_header, data$paramHeader)) == 0){
+      present_params <- intersect(param_header, data$paramHeader)
 
       data <- data %>%
-        filter(paramHeader %in% param_header)
-    }
+        filter(paramHeader %in% present_params)
   }
 
 

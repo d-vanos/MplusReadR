@@ -17,19 +17,25 @@ test_tidy <- function(data, n = 1) {
   })
 }
 
-### Running test_tidy ###
-for(data_n in 1:n_objects){
+# ### Running test_tidy ###
+# for(data_n in 1:n_objects){
+#
+#   # get the right dataset
+#   data <- get(objects[data_n])
+#
+#   # Run the test
+#   for(n in 1:length(data)){
+#     print(paste0("Dataset: ", objects[data_n], " List number:", n))
+#     test_tidy(data = data, n = n)
+#   }
+# }
 
-  # get the right dataset
-  data <- get(objects[data_n])
 
-  # Run the test
-  for(n in 1:length(data)){
-    print(paste0("Dataset: ", objects[data_n], " List number:", n))
-    test_tidy(data = data, n = n)
-  }
+for(n in 1:length(UniAR_noz)){
+  print(paste0("List_number: ", n))
+  test_tidy(data = UniAR_noz, n = n)
 }
 
-check <- test_tidy(null, n = 1)
+
 
 

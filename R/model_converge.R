@@ -11,7 +11,7 @@
 #' @return A tidy dataset indicating whether each of the models converged.
 
 # Check whether each model in an Mplus list converged
-model_converge <- function(Mplus_file){
+mplus_converge <- function(Mplus_file){
 
   # Initialising the variable used in the loop below
   data <- tibble()
@@ -38,12 +38,12 @@ model_converge <- function(Mplus_file){
 #'
 #' @return The original Mplus output excluding the non-converged models.
 #'
-#' @seealso \code{\link[MplusReadR]{model_converge}}
+#' @seealso \code{\link[MplusReadR]{mplus_converge}}
 
 # Check whether each model in an Mplus list converged and remove those that did not
-remove_no_converge <- function(Mplus_model){
+mplus_remove_converge <- function(Mplus_model){
   # Create a table of values indicating which models did or did not converge
-  data <- model_converge(Mplus_model)
+  data <- mplus_converge(Mplus_model)
 
   # Create a list of models that did not converge and save names
   not_converged <- as_vector(data %>%

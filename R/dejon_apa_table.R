@@ -1,18 +1,20 @@
 
-#' APA-style Mplus Tables
+#' APA-style Mplus Tables for Dejonckheere Project
 #'
-#' Creates APA-style tables containing output from multiple Mplus objects.
+#' Creates APA-style tables for the Dejonckheere Project containing output from multiple Mplus objects.
 #'
 #' @import tidyr
-#' @importFrom htmlTable addHtmlTableStyle
+#' @import htmlTable
 #'
-#' @param tidy_data A tidy dataset of Mplus models, created by [MplusReadR::tidy_compile()]
+#' @param tidy_data A tidy dataset of Mplus models, created by [MplusReadR::dejon_compile()].
 #' @param model_type One of 'null', 'univariate', or 'bivariate'.
 #'
-#' @return APA-style table of Mplus output.
+#' @return APA-style table of Mplus output for the Dejonckheere Project.
+#'
+#' @seealso [MplusReadR::dejon_compile()]
 
 # will need tidyr, htmlTable
-apa_table <- function(tidy_data, model_type){
+dejon_apa_table <- function(tidy_data, model_type){
 
   # Save objects for later use
   unique_var <- unique(tidy_data$variable)
