@@ -17,7 +17,7 @@
 #' @param outcomes Outcome variables in the Mplus output. Available outcomes can be found using [MplusReadR::mplus_check_params()]. Defaults to all outcomes.
 #' @param standardized Whether standardized or unstandardized output should be used for univariate and bivariate models. Defaults to TRUE.
 #' @return A tibble containing specified variables and parameters from multiple Mplus models.
-#'
+#' @export
 
 
 # This function takes the tidy data function and applies it to multiple mplus files in an mplus model list

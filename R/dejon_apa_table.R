@@ -10,7 +10,7 @@
 #' @param model_type One of 'null', 'univariate', or 'bivariate'.
 #'
 #' @return APA-style table of Mplus output for the Dejonckheere Project.
-#'
+#' @export
 
 # will need tidyr, htmlTable
 dejon_apa_table <- function(tidy_data, model_type){

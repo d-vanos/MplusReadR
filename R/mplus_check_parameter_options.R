@@ -9,7 +9,7 @@
 #' @param standardized Whether standardized or unstandardized output should be used for univariate and bivariate models. Defaults to TRUE.
 #' @param project Whether the parameters are for the Dejon project or another project. One of 'dejon', 'other'. Defaults to 'other'.
 #' @return A list of available options for [MplusReadR::mplus_compile()] or [MplusReadR::dejon_compile()].
-#'
+#' @export
 
 
 mplus_check_params <- function(Mplus_file, parameter_type, standardized = TRUE, project = "other"){

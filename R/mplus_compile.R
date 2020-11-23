@@ -13,6 +13,7 @@
 #' @param converged If TRUE, removes non-converged models.
 #' @param define Displays a column containing information from the 'define' input in the Mplus file. Defaults to FALSE.
 #' @return A tibble containing specified variables and parameters from multiple Mplus models.
+#' @export
 
 
 # This function takes the tidy data function and applies it to multiple mplus files in an mplus model list
