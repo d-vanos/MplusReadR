@@ -13,8 +13,7 @@
 #' @param converged If TRUE, removes non-converged models.
 #' @param define Displays a column containing information from the 'define' input in the Mplus file. Defaults to FALSE.
 #' @return A tibble containing specified variables and parameters from multiple Mplus models.
-#'
-#' @seealso [MplusReadR::mplus_apa_table()] [MplusReadR::mplus_check_params()]
+
 
 # This function takes the tidy data function and applies it to multiple mplus files in an mplus model list
 mplus_compile <- function(Mplus_file, rounding = 2, param_header = NULL, parameter = NULL, display = "all", standardized = TRUE, converged = TRUE, define = FALSE){

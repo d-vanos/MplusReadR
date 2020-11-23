@@ -10,7 +10,6 @@
 #' @param project Whether the parameters are for the Dejon project or another project. One of 'dejon', 'other'. Defaults to 'other'.
 #' @return A list of available options for [MplusReadR::mplus_compile()] or [MplusReadR::dejon_compile()].
 #'
-#' @seealso [MplusReadR::mplus_compile()] [MplusReadR::dejon_compile()] [MplusAutomation::readModels()]
 
 
 mplus_check_params <- function(Mplus_file, parameter_type, standardized = TRUE, project = "other"){

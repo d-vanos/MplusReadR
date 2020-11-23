@@ -41,6 +41,3 @@ A tibble containing specified variables and parameters from multiple Mplus model
 \description{
 Creates a tidy dataset for the Dejonckheere Project containing analyses from multiple Mplus objects. This can then be used in the \code{\link[=dejon_apa_table]{dejon_apa_table()}} function, or can be saved separately.
 }
-\seealso{
-\code{\link[=dejon_apa_table]{dejon_apa_table()}} \code{\link[MplusAutomation:readModels]{MplusAutomation::readModels()}} \code{\link[=mplus_check_params]{mplus_check_params()}}
-}

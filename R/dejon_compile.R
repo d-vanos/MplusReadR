@@ -18,7 +18,7 @@
 #' @param standardized Whether standardized or unstandardized output should be used for univariate and bivariate models. Defaults to TRUE.
 #' @return A tibble containing specified variables and parameters from multiple Mplus models.
 #'
-#' @seealso [MplusReadR::dejon_apa_table()] [MplusAutomation::readModels()] [MplusReadR::mplus_check_params()]
+
 
 # This function takes the tidy data function and applies it to multiple mplus files in an mplus model list
 dejon_compile <- function(Mplus_file, model_type, rounding = 2, parameters = NULL, variables = NULL, paramheaders = NULL, outcomes = NULL, standardized = TRUE){

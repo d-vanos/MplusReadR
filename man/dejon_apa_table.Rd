@@ -17,6 +17,3 @@ APA-style table of Mplus output for the Dejonckheere Project.
 \description{
 Creates APA-style tables for the Dejonckheere Project containing output from multiple Mplus objects.
 }
-\seealso{
-\code{\link[=dejon_compile]{dejon_compile()}}
-}

@@ -11,7 +11,6 @@
 #'
 #' @return APA-style table of Mplus output for the Dejonckheere Project.
 #'
-#' @seealso [MplusReadR::dejon_compile()]
 
 # will need tidyr, htmlTable
 dejon_apa_table <- function(tidy_data, model_type){

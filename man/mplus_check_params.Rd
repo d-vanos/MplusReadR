@@ -26,6 +26,3 @@ A list of available options for \code{\link[=mplus_compile]{mplus_compile()}} or
 \description{
 Checks the options available to select in \code{\link[=mplus_compile]{mplus_compile()}} or \code{\link[=dejon_compile]{dejon_compile()}}.
 }
-\seealso{
-\code{\link[=mplus_compile]{mplus_compile()}} \code{\link[=dejon_compile]{dejon_compile()}} \code{\link[MplusAutomation:readModels]{MplusAutomation::readModels()}}
-}
