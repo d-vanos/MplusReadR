@@ -39,6 +39,8 @@ mplus_converge <- function(Mplus_file){
 #'
 #' @return The original Mplus output excluding the non-converged models.
 #'
+#' @export
+#'
 #' @seealso \code{\link[MplusReadR]{mplus_converge}}
 
 # Check whether each model in an Mplus list converged and remove those that did not
