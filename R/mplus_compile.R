@@ -62,7 +62,9 @@ mplus_compile <- function(Mplus_file, rounding = 2, param_header = NULL, paramet
 
   if(length(display) == 1){
 
-    if(display == "minimal"){
+    if(display == "all"){}
+
+    else if(display == "minimal"){
 
       # Check that all the required columns needed for 'minimal' exist in the dataset
       minimal_columns <- c("dataset", "dataset_title", "paramHeader", "param", "est", "lower_2.5ci", "upper_2.5ci")
@@ -81,7 +83,7 @@ mplus_compile <- function(Mplus_file, rounding = 2, param_header = NULL, paramet
       }
     }
 
-    if(display == "descriptives"){
+    else if(display == "descriptives"){
 
       # Check that all the required columns needed for 'descriptives' exist in the dataset
       descript_columns <- c("dataset", "dataset_title", "paramHeader", "T", "N", "param", "est", "lower_2.5ci", "upper_2.5ci")
