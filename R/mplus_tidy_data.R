@@ -2,7 +2,7 @@
 # D. J. van Os
 # 18/11/2020
 
-mplus_tidy <- function(Mplus_file, model_n = 1, param_header = NULL, parameter = NULL, display = "all", standardized = TRUE, define = FALSE, rounding = 2){
+mplus_tidy <- function(Mplus_file, model_n = 1, param_header = NULL, parameter = NULL, standardized = TRUE, define = FALSE, rounding = 2){
 
   #### Create a tibble ####
 
@@ -76,83 +76,6 @@ mplus_tidy <- function(Mplus_file, model_n = 1, param_header = NULL, parameter =
       mutate(define = paste(trimws(Mplus_file[[model_n]]$input$define), collapse = "|"))
     check <- trimws(Mplus_file[[model_n]]$input$define)
   }
-
-
-
-  ##### Display options for extra columns ####
-
-  if(length(display) == 1){
-
-    if(display == "minimal"){
-
-      # Check that all the required columns needed for 'minimal' exist in the dataset
-      minimal_columns <- c("dataset_title", "paramHeader", "param", "est", "lower_2.5ci", "upper_2.5ci")
-
-      if(length(setdiff(minimal_columns, colnames(data))) > 0){
-        warning(paste0("Some of the columns required for this theme do not appear to be present in the dataset.
-                     These are: ", setdiff(minimal_columns, colnames(data)),". Reverting to default: display = \"all\"."))
-      }
-
-      # If all the columns exist, select only these columns
-      else if(length(setdiff(minimal_columns, colnames(data))) == 0){
-
-        data <- data %>%
-          select(dataset_title, paramHeader, param, est, lower_2.5ci, upper_2.5ci)
-
-      }
-    }
-
-    if(display == "descriptives"){
-
-      # Check that all the required columns needed for 'descriptives' exist in the dataset
-      descript_columns <- c("dataset_title", "paramHeader", "T", "N", "param", "est", "lower_2.5ci", "upper_2.5ci")
-
-      if(length(setdiff(descript_columns, colnames(data))) > 0){
-        warning(paste0("Some of the columns required for this theme do not appear to be present in the dataset.
-                     These are: ", setdiff(descript_columns, colnames(data)),". Reverting to default: display = \"all\"."))
-      }
-
-      # If all the columns exist, select only these columns
-      else if(length(setdiff(descript_columns, colnames(data))) == 0){
-
-        data <- data %>%
-          select(dataset_title, paramHeader, `T`, N, param, est, lower_2.5ci, upper_2.5ci)
-
-      }
-    }
-  }
-
-  # If the user wants to specify the columns themselves
-  else {
-
-    # Dataset is created in `mplus_compile()` so if it is mentioned here it must be removed
-    if("dataset" %in% display){
-      display <- display[display != "dataset"]
-    }
-
-    # Remove unwanted columns if they exist
-    if(length(setdiff(display, colnames(data))) == 0){
-
-      if(!"dataset_title" %in% display){
-        warning("dataset_title must be included in the display options.")
-        stop()
-      }
-
-      else {
-        # Filter by display columns
-        data <- data %>% select(display)
-      }
-    }
-
-    # If the columns do not exist (there are names in do_not_display that are not column names)
-    else if(length(setdiff(display, colnames(data))) > 0){
-
-      warning(paste("The following columns you have specified to do not appear to be present in the dataset:", setdiff(display, colnames(data)), "Displaying all columns."))
-
-    }
-  }
-
-
 
 
   ##### Filter by paramHeader #####
