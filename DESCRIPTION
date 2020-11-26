@@ -1,6 +1,6 @@
 Package: MplusReadR
 Title: Tabulate and Format Mplus Output
-Version: 0.1.0
+Version: 0.1.1
 Imports: MplusAutomation, htmlTable, dplyr, magrittr
 Authors@R: 
     person(given = "Danielle",

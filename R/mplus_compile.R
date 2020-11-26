@@ -60,8 +60,6 @@ mplus_compile <- function(Mplus_file, rounding = 2, param_header = NULL, paramet
 
   ##### Display options for extra columns ####
 
-  if(length(display) == 1){
-
     if(display == "minimal"){
 
       # Check that all the required columns needed for 'minimal' exist in the dataset
@@ -99,7 +97,6 @@ mplus_compile <- function(Mplus_file, rounding = 2, param_header = NULL, paramet
 
       }
     }
-  }
 
   # If the user wants to specify the columns themselves
   else {
