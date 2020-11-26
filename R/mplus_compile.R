@@ -60,6 +60,8 @@ mplus_compile <- function(Mplus_file, rounding = 2, param_header = NULL, paramet
 
   ##### Display options for extra columns ####
 
+  if(length(display) == 1){
+
     if(display == "minimal"){
 
       # Check that all the required columns needed for 'minimal' exist in the dataset
@@ -98,26 +100,29 @@ mplus_compile <- function(Mplus_file, rounding = 2, param_header = NULL, paramet
       }
     }
 
+    else {
+
+      # If the columns do not exist (there are names in do_not_display that are not column names)
+      if(length(setdiff(display, colnames(data))) > 0){
+
+        warning(paste("The column you have specified does not appear to be present in the dataset:", setdiff(display, colnames(data)), "Displaying all columns."))
+
+      }
+      else if(length(setdiff(display, colnames(data))) == 0){
+        # Filter by display columns
+        data <- data %>% select(display)
+      }
+    }
+
+  }
+
   # If the user wants to specify the columns themselves
   else {
 
-    # # Dataset is created in `mplus_compile()` so if it is mentioned here it must be removed
-    # if("dataset" %in% display){
-    #   display <- display[display != "dataset"]
-    # }
-    #
-    # # Remove unwanted columns if they exist
-    # if(length(setdiff(display, colnames(data))) == 0){
-    #
-    #   if(!"dataset_title" %in% display){
-    #     warning("dataset_title must be included in the display options.")
-    #     stop()
-    #   }
-    #
     # If the columns do not exist (there are names in do_not_display that are not column names)
     if(length(setdiff(display, colnames(data))) > 0){
 
-      warning(paste("The following columns you have specified to do not appear to be present in the dataset:", setdiff(display, colnames(data)), "Displaying all columns."))
+      warning(paste("The following columns you have specified do not appear to be present in the dataset:", setdiff(display, colnames(data)), "Displaying all columns."))
 
     }
     else if(length(setdiff(display, colnames(data))) == 0){
