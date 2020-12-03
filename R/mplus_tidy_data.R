@@ -82,10 +82,11 @@ mplus_tidy <- function(Mplus_file, model_n = 1, param_header = NULL, parameter =
 
   if(!is.null(param_header)){
 
-      present_paramheaders <- intersect(param_header, data$paramHeader)
+    # If there are multiple parameters, combining these into one string (needed for grepl function)
+    collapsed_paramheaders <- paste(param_header, collapse = "|")
 
       data <- data %>%
-        filter(paramHeader %in% present_paramheaders)
+        filter(grepl(collapsed_paramheaders, paramHeader))
   }
 
 

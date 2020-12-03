@@ -78,7 +78,7 @@ mplus_compile <- function(Mplus_file, rounding = 2, param_header = NULL, paramet
       else if(length(setdiff(minimal_columns, colnames(data))) == 0){
 
         data <- data %>%
-          select(dataset_title, paramHeader, param, est, lower_2.5ci, upper_2.5ci)
+          select(dataset, dataset_title, paramHeader, param, est, lower_2.5ci, upper_2.5ci)
 
       }
     }
