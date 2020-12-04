@@ -7,6 +7,7 @@
 
 # HTML formatting
 formatting <- function(data, table_title = NULL){
+  data <- data %>% select(-dataset)
   data %>%
   addHtmlTableStyle(css.tspanner = "font-family: Times New Roman, Times, serif;",
                     css.cgroup = "font-family: Times New Roman, Times, serif;", # For the top heading
