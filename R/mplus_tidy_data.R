@@ -97,19 +97,25 @@ mplus_tidy <- function(Mplus_file, model_n = 1, param_header = NULL, parameter =
   # Check if the user specifies a parameter
   if(!is.null(parameter)){
 
-    # Warn user if parameter does not exist
-    if(length(setdiff(parameter, data$param)) > 0){
-      warning(paste0("Some of the parameters specified do not exist in the dataset.
-                     These are: ", setdiff(parameter, data$param),".
-                     Only displaying selected parameters which are present in the dataset."))
+    collapsed_params <- paste(parameter, collapse = "|")
 
-      present_params <- intersect(parameter, data$param)
-    }
+    data <- data %>%
+      filter(grepl(collapsed_params, param))
 
-    # Filter by parameter if it exists
 
-      data <- data %>%
-        filter(param %in% parameter)
+
+    # if(length(setdiff(parameter, data$param)) > 0){
+    #   warning(paste0("Some of the parameters specified do not exist in the dataset.
+    #                  These are: ", setdiff(parameter, data$param),".
+    #                  Only displaying selected parameters which are present in the dataset."))
+    #
+    #   present_params <- intersect(parameter, data$param)
+    # }
+    #
+    # # Filter by parameter if it exists
+    #
+    #   data <- data %>%
+    #     filter(param %in% parameter)
   }
 
 
