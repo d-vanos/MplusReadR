@@ -2,7 +2,7 @@
 title: "MplusReadR"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{MplusReadR-vignette}
+  %\VignetteIndexEntry{MplusReadR}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
