@@ -34,7 +34,7 @@ The latest version of the package can be installed by re-running `install_github
 ## Getting Started 
 There are two components to MplusReadR. The first is a set of functions which have been custom-made for a project known as Dejonckheere (2019). These all start with 'dejon', and can only be used for this project. The second is a set of functions which are based off those created for the 'dejon' project, but these can be used more widely across different types of Mplus output. These functions all start with 'mplus'. 
 
-Each set of functions has its own tutorial. To learn about the functions, check out the [Dejon vignette](https://d-vanos.github.io/MplusReadR/articles/Dejon-vignette.html) and the general [MplusReadR vignette](https://d-vanos.github.io/MplusReadR/articles/MplusReadR-vignette.html). 
+Each set of functions has its own tutorial. To get started, check out the [Dejon vignette](https://d-vanos.github.io/MplusReadR/articles/Dejon-vignette.html) and the general [MplusReadR vignette](https://d-vanos.github.io/MplusReadR/articles/MplusReadR-vignette.html). 
 
 
 ## References
