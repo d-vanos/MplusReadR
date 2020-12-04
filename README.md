@@ -36,7 +36,8 @@ second is a set of functions which are based off those created for the
 ‘dejon’ project, but these can be used more widely across different
 types of Mplus output. These functions all start with ‘mplus’.
 
-Each set of functions has its own tutorial. Check out the [Dejon
+Each set of functions has its own tutorial. To learn about the
+functions, check out the [Dejon
 vignette](https://d-vanos.github.io/MplusReadR/articles/Dejon-vignette.html)
 and the general [MplusReadR
 vignette](https://d-vanos.github.io/MplusReadR/articles/MplusReadR-vignette.html).
