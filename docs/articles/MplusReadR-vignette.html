@@ -87,12 +87,206 @@
     
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">MplusReadR</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">MplusReadR</span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/michaelhallquist/MplusAutomation">MplusAutomation</a></span><span class="op">)</span>
+<span class="co">#&gt; Warning: package 'MplusAutomation' was built under R version 4.0.3</span>
+<span class="co">#&gt; Version:  0.8</span>
+<span class="co">#&gt; We work hard to write this free software. Please help us get credit by citing: </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Hallquist, M. N. &amp; Wiley, J. F. (2018). MplusAutomation: An R Package for Facilitating Large-Scale Latent Variable Analyses in Mplus. Structural Equation Modeling, 25, 621-638. doi: 10.1080/10705511.2017.1402334.</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; -- see citation("MplusAutomation").</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://github.com/gluc/data.tree">data.tree</a></span><span class="op">)</span>
+<span class="co">#&gt; Warning: package 'data.tree' was built under R version 4.0.3</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/rich-iannone/DiagrammeR">DiagrammeR</a></span><span class="op">)</span>
+<span class="co">#&gt; Warning: package 'DiagrammeR' was built under R version 4.0.3</span></code></pre></div>
+<div id="a-basic-example" class="section level2">
+<h2 class="hasAnchor">
+<a href="#a-basic-example" class="anchor"></a>A Basic Example</h2>
+<div id="read-in-the-data" class="section level3">
+<h3 class="hasAnchor">
+<a href="#read-in-the-data" class="anchor"></a>Read in the data</h3>
+<p>To start, load the relevant models using the <code><a href="https://rdrr.io/pkg/MplusAutomation/man/readModels.html">readModels()</a></code> function from the <a href="https://cran.r-project.org/web/packages/MplusAutomation/index.html">MplusAutomation</a> package. Before loading in the data, ensure there are no special characters such as brackets, dashes, or spaces, which prevent dataset titles from being formatted correctly, causing further issues down the line. You can quickly rename all your model output files using the function below. This will remove any special characters that might cause issues later.</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Note: set your working directory to the folder your models are located in.</span>
+<span class="fu"><a href="../reference/fix_file_names.html">fix_file_names</a></span><span class="op">(</span><span class="va">dir</span><span class="op">)</span></code></pre></div>
+<p>The original files:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">original_files</span>
+<span class="co">#&gt; [1] "test-file-1.out" "test file 2.out" "test(file)3.out"</span></code></pre></div>
+<p>The renamed files:</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">renamed_files</span>
+<span class="co">#&gt; [1] "test_file_1.out" "test_file_2.out" "test_file_3.out"</span></code></pre></div>
+<p>After this has been completed, load in your data. In this example we will be loading in a set of univariate models which include the predictor variables Negative Affect (na) and Positive Affect (pa), and the outcome variables depression (DEPR) and satisfaction with life (SWL). Always include <code>recursive = TRUE</code>, even if all your files are in one folder, as this will ensure that the dataset titles format properly.</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">models</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/MplusAutomation/man/readModels.html">readModels</a></span><span class="op">(</span><span class="st">'univariate_models'</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<span class="co">#&gt; Reading model:  univariate_models/predictDEP/naAR predict DEPR/1_naAR_CESD.out </span>
+<span class="co">#&gt; Reading model:  univariate_models/predictDEP/naAR predict DEPR/2_naAR_CESD.out </span>
+<span class="co">#&gt; Reading model:  univariate_models/predictDEP/naAR predict DEPR/3_naAR_QIDS.out </span>
+<span class="co">#&gt; Reading model:  univariate_models/predictDEP/naAR predict DEPR/4_naAR_ADPIVBPD.out </span>
+<span class="co">#&gt; Reading model:  univariate_models/predictDEP/naAR predict DEPR/5_naAR_CESD.out </span>
+<span class="co">#&gt; Reading model:  univariate_models/predictDEP/paAR predict DEPR/1_paAR_CESD.out </span>
+<span class="co">#&gt; Reading model:  univariate_models/predictDEP/paAR predict DEPR/2_paAR_CESD.out </span>
+<span class="co">#&gt; Reading model:  univariate_models/predictDEP/paAR predict DEPR/3_paAR_QIDS.out </span>
+<span class="co">#&gt; Reading model:  univariate_models/predictDEP/paAR predict DEPR/4_paAR_ADPIVBPD.out </span>
+<span class="co">#&gt; Reading model:  univariate_models/predictDEP/paAR predict DEPR/5_paAR_CESD.out </span>
+<span class="co">#&gt; Reading model:  univariate_models/predictSWL/naAR predict SWL/1_naAR_SWL.out </span>
+<span class="co">#&gt; Reading model:  univariate_models/predictSWL/naAR predict SWL/2_naAR_SWL.out </span>
+<span class="co">#&gt; Reading model:  univariate_models/predictSWL/naAR predict SWL/3_naAR_SWL.out </span>
+<span class="co">#&gt; Reading model:  univariate_models/predictSWL/naAR predict SWL/5_naAR_SWL.out </span>
+<span class="co">#&gt; Reading model:  univariate_models/predictSWL/paAR predict SWL/1_paAR_SWL.out </span>
+<span class="co">#&gt; Reading model:  univariate_models/predictSWL/paAR predict SWL/2_paAR_SWL.out </span>
+<span class="co">#&gt; Reading model:  univariate_models/predictSWL/paAR predict SWL/3_paAR_SWL.out </span>
+<span class="co">#&gt; Reading model:  univariate_models/predictSWL/paAR predict SWL/5_paAR_SWL.out</span></code></pre></div>
+<p>The models read in by the <code><a href="https://rdrr.io/pkg/MplusAutomation/man/readModels.html">readModels()</a></code> function will be saved as a list. The structure of each of the models is similar to this:</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/data.tree/man/as.Node.html">as.Node</a></span><span class="op">(</span><span class="va">models</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>
+<span class="co">#&gt;                          levelName</span>
+<span class="co">#&gt; 1   Root                          </span>
+<span class="co">#&gt; 2    ¦--input                     </span>
+<span class="co">#&gt; 3    ¦   ¦--data                  </span>
+<span class="co">#&gt; 4    ¦   ¦--variable              </span>
+<span class="co">#&gt; 5    ¦   °--analysis              </span>
+<span class="co">#&gt; 6    ¦--warnings                  </span>
+<span class="co">#&gt; 7    ¦--errors                    </span>
+<span class="co">#&gt; 8    ¦--data_summary              </span>
+<span class="co">#&gt; 9    ¦   °--overall               </span>
+<span class="co">#&gt; 10   ¦--sampstat                  </span>
+<span class="co">#&gt; 11   ¦--summaries                 </span>
+<span class="co">#&gt; 12   ¦--invariance_testing        </span>
+<span class="co">#&gt; 13   ¦--parameters                </span>
+<span class="co">#&gt; 14   ¦   ¦--unstandardized        </span>
+<span class="co">#&gt; 15   ¦   ¦--r2                    </span>
+<span class="co">#&gt; 16   ¦   ¦--ci.unstandardized     </span>
+<span class="co">#&gt; 17   ¦   ¦--stdyx.standardized    </span>
+<span class="co">#&gt; 18   ¦   ¦--ci.stdyx.standardized </span>
+<span class="co">#&gt; 19   ¦   °--wilevel.standardized  </span>
+<span class="co">#&gt; 20   ¦       ¦--stdyx.standardized</span>
+<span class="co">#&gt; 21   ¦       °--r2                </span>
+<span class="co">#&gt; 22   ¦--class_counts              </span>
+<span class="co">#&gt; 23   ¦--indirect                  </span>
+<span class="co">#&gt; 24   ¦--residuals                 </span>
+<span class="co">#&gt; 25   ¦--tech1                     </span>
+<span class="co">#&gt; 26   ¦   ¦--parameterSpecification</span>
+<span class="co">#&gt; 27   ¦   ¦   ¦--WITHIN            </span>
+<span class="co">#&gt; 28   ¦   ¦   °--BETWEEN           </span>
+<span class="co">#&gt; 29   ¦   °--startingValues        </span>
+<span class="co">#&gt; 30   ¦       ¦--WITHIN            </span>
+<span class="co">#&gt; 31   ¦       °--BETWEEN           </span>
+<span class="co">#&gt; 32   ¦--tech3                     </span>
+<span class="co">#&gt; 33   ¦--tech4                     </span>
+<span class="co">#&gt; 34   ¦   ¦--BETWEEN               </span>
+<span class="co">#&gt; 35   ¦   ¦--CLUSTER.16.FOR.WITHIN </span>
+<span class="co">#&gt; 36   ¦   ¦--CLUSTER.6.FOR.WITHIN  </span>
+<span class="co">#&gt; 37   ¦   ¦--CLUSTER.3.FOR.WITHIN  </span>
+<span class="co">#&gt; 38   ¦   ¦--CLUSTER.17.FOR.WITHIN </span>
+<span class="co">#&gt; 39   ¦   ¦--CLUSTER.19.FOR.WITHIN </span>
+<span class="co">#&gt; 40   ¦   ¦--CLUSTER.20.FOR.WITHIN </span>
+<span class="co">#&gt; 41   ¦   ¦--CLUSTER.35.FOR.WITHIN </span>
+<span class="co">#&gt; 42   ¦   ¦--CLUSTER.47.FOR.WITHIN </span>
+<span class="co">#&gt; 43   ¦   ¦--CLUSTER.64.FOR.WITHIN </span>
+<span class="co">#&gt; 44   ¦   ¦--CLUSTER.68.FOR.WITHIN </span>
+<span class="co">#&gt; 45   ¦   ¦--CLUSTER.71.FOR.WITHIN </span>
+<span class="co">#&gt; 46   ¦   ¦--CLUSTER.13.FOR.WITHIN </span>
+<span class="co">#&gt; 47   ¦   ¦--CLUSTER.1.FOR.WITHIN  </span>
+<span class="co">#&gt; 48   ¦   ¦--CLUSTER.5.FOR.WITHIN  </span>
+<span class="co">#&gt; 49   ¦   ¦--CLUSTER.2.FOR.WITHIN  </span>
+<span class="co">#&gt; 50   ¦   ¦--CLUSTER.7.FOR.WITHIN  </span>
+<span class="co">#&gt; 51   ¦   ¦--CLUSTER.21.FOR.WITHIN </span>
+<span class="co">#&gt; 52   ¦   ¦--CLUSTER.22.FOR.WITHIN </span>
+<span class="co">#&gt; 53   ¦   ¦--CLUSTER.23.FOR.WITHIN </span>
+<span class="co">#&gt; 54   ¦   ¦--CLUSTER.24.FOR.WITHIN </span>
+<span class="co">#&gt; 55   ¦   ¦--CLUSTER.25.FOR.WITHIN </span>
+<span class="co">#&gt; 56   ¦   ¦--CLUSTER.27.FOR.WITHIN </span>
+<span class="co">#&gt; 57   ¦   ¦--CLUSTER.28.FOR.WITHIN </span>
+<span class="co">#&gt; 58   ¦   ¦--CLUSTER.29.FOR.WITHIN </span>
+<span class="co">#&gt; 59   ¦   ¦--CLUSTER.30.FOR.WITHIN </span>
+<span class="co">#&gt; 60   ¦   ¦--CLUSTER.31.FOR.WITHIN </span>
+<span class="co">#&gt; 61   ¦   ¦--CLUSTER.32.FOR.WITHIN </span>
+<span class="co">#&gt; 62   ¦   ¦--CLUSTER.33.FOR.WITHIN </span>
+<span class="co">#&gt; 63   ¦   ¦--CLUSTER.8.FOR.WITHIN  </span>
+<span class="co">#&gt; 64   ¦   ¦--CLUSTER.36.FOR.WITHIN </span>
+<span class="co">#&gt; 65   ¦   ¦--CLUSTER.38.FOR.WITHIN </span>
+<span class="co">#&gt; 66   ¦   ¦--CLUSTER.41.FOR.WITHIN </span>
+<span class="co">#&gt; 67   ¦   ¦--CLUSTER.42.FOR.WITHIN </span>
+<span class="co">#&gt; 68   ¦   ¦--CLUSTER.44.FOR.WITHIN </span>
+<span class="co">#&gt; 69   ¦   ¦--CLUSTER.46.FOR.WITHIN </span>
+<span class="co">#&gt; 70   ¦   ¦--CLUSTER.9.FOR.WITHIN  </span>
+<span class="co">#&gt; 71   ¦   ¦--CLUSTER.48.FOR.WITHIN </span>
+<span class="co">#&gt; 72   ¦   ¦--CLUSTER.49.FOR.WITHIN </span>
+<span class="co">#&gt; 73   ¦   ¦--CLUSTER.50.FOR.WITHIN </span>
+<span class="co">#&gt; 74   ¦   ¦--CLUSTER.51.FOR.WITHIN </span>
+<span class="co">#&gt; 75   ¦   ¦--CLUSTER.52.FOR.WITHIN </span>
+<span class="co">#&gt; 76   ¦   ¦--CLUSTER.53.FOR.WITHIN </span>
+<span class="co">#&gt; 77   ¦   ¦--CLUSTER.55.FOR.WITHIN </span>
+<span class="co">#&gt; 78   ¦   ¦--CLUSTER.56.FOR.WITHIN </span>
+<span class="co">#&gt; 79   ¦   ¦--CLUSTER.57.FOR.WITHIN </span>
+<span class="co">#&gt; 80   ¦   ¦--CLUSTER.58.FOR.WITHIN </span>
+<span class="co">#&gt; 81   ¦   ¦--CLUSTER.59.FOR.WITHIN </span>
+<span class="co">#&gt; 82   ¦   ¦--CLUSTER.60.FOR.WITHIN </span>
+<span class="co">#&gt; 83   ¦   ¦--CLUSTER.61.FOR.WITHIN </span>
+<span class="co">#&gt; 84   ¦   ¦--CLUSTER.62.FOR.WITHIN </span>
+<span class="co">#&gt; 85   ¦   ¦--CLUSTER.63.FOR.WITHIN </span>
+<span class="co">#&gt; 86   ¦   ¦--CLUSTER.10.FOR.WITHIN </span>
+<span class="co">#&gt; 87   ¦   ¦--CLUSTER.65.FOR.WITHIN </span>
+<span class="co">#&gt; 88   ¦   ¦--CLUSTER.66.FOR.WITHIN </span>
+<span class="co">#&gt; 89   ¦   ¦--CLUSTER.67.FOR.WITHIN </span>
+<span class="co">#&gt; 90   ¦   ¦--CLUSTER.11.FOR.WITHIN </span>
+<span class="co">#&gt; 91   ¦   ¦--CLUSTER.69.FOR.WITHIN </span>
+<span class="co">#&gt; 92   ¦   ¦--CLUSTER.70.FOR.WITHIN </span>
+<span class="co">#&gt; 93   ¦   ¦--CLUSTER.12.FOR.WITHIN </span>
+<span class="co">#&gt; 94   ¦   ¦--CLUSTER.74.FOR.WITHIN </span>
+<span class="co">#&gt; 95   ¦   ¦--CLUSTER.75.FOR.WITHIN </span>
+<span class="co">#&gt; 96   ¦   ¦--CLUSTER.76.FOR.WITHIN </span>
+<span class="co">#&gt; 97   ¦   ¦--CLUSTER.77.FOR.WITHIN </span>
+<span class="co">#&gt; 98   ¦   ¦--CLUSTER.79.FOR.WITHIN </span>
+<span class="co">#&gt; 99   ¦   ¦--CLUSTER.80.FOR.WITHIN </span>
+<span class="co">#&gt; 100  ¦   °--... 29 nodes w/ 0 sub </span>
+<span class="co">#&gt; 101  °--... 8 nodes w/ 30 sub</span></code></pre></div>
+</div>
+<div id="creating-a-tidy-dataset" class="section level3">
+<h3 class="hasAnchor">
+<a href="#creating-a-tidy-dataset" class="anchor"></a>Creating a Tidy Dataset</h3>
+<p>The first aim of MplusReadR is to tabulate key output from these multiple Mplus files. Using the default settings will result in a tibble that displays all columns present in standardized section of the ‘parameters’ section of an Mplus file to three decimal places, as shown below. Use <code><a href="../reference/mplus_compile.html">?mplus_compile</a></code> or head to the reference page for <a href="%22https://d-vanos.github.io/MplusReadR/reference/mplus_compile.html%22">mplus_compile</a> to check the default options and learn about ways you can customise output.</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">tidy_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mplus_compile.html">mplus_compile</a></span><span class="op">(</span>Mplus_file <span class="op">=</span> <span class="va">models</span><span class="op">)</span>
+<span class="va">tidy_data</span>
+<span class="co">#&gt; # A tibble: 324 x 13</span>
+<span class="co">#&gt;    dataset dataset_title     T     N paramHeader param est   posterior_sd pval </span>
+<span class="co">#&gt;      &lt;int&gt; &lt;chr&gt;         &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;       &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;        &lt;chr&gt;</span>
+<span class="co">#&gt;  1       1 1_naAR_CESD    2808    94 NAONNA|NA.~ NA&amp;1  0.20  0.02         0.00 </span>
+<span class="co">#&gt;  2       1 1_naAR_CESD    2808    94 NAVAR.|     NA    0.92  0.01         0.00 </span>
+<span class="co">#&gt;  3       1 1_naAR_CESD    2808    94 Z.ON        NAON~ 0.35  0.15         0.01 </span>
+<span class="co">#&gt;  4       1 1_naAR_CESD    2808    94 Z.ON        NAVAR 0.14  0.11         0.11 </span>
+<span class="co">#&gt;  5       1 1_naAR_CESD    2808    94 Z.ON        NA    0.42  0.11         0.00 </span>
+<span class="co">#&gt;  6       1 1_naAR_CESD    2808    94 NA.WITH     NAON~ 0.22  0.16         0.10 </span>
+<span class="co">#&gt;  7       1 1_naAR_CESD    2808    94 NA.WITH     NAVAR -0.23 0.12         0.03 </span>
+<span class="co">#&gt;  8       1 1_naAR_CESD    2808    94 NAONNA.WITH NAVAR -0.13 0.17         0.23 </span>
+<span class="co">#&gt;  9       1 1_naAR_CESD    2808    94 Means       NA    2.26  0.21         0.00 </span>
+<span class="co">#&gt; 10       1 1_naAR_CESD    2808    94 Means       NAON~ 1.08  0.26         0.00 </span>
+<span class="co">#&gt; # ... with 314 more rows, and 4 more variables: lower_2.5ci &lt;chr&gt;,</span>
+<span class="co">#&gt; #   upper_2.5ci &lt;chr&gt;, sig &lt;lgl&gt;, BetweenWithin &lt;chr&gt;</span></code></pre></div>
+</div>
+<div id="creating-a-html-apa-style-table" class="section level3">
+<h3 class="hasAnchor">
+<a href="#creating-a-html-apa-style-table" class="anchor"></a>Creating a html APA-style table</h3>
+<p>The second aim of MplusReadR is to format the tabulated Mplus output created above into a html APA-style table. The default</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co">#mplus_apa_table(tidy_data)</span></code></pre></div>
+</div>
+</div>
+<div id="another-example---customising-your-output" class="section level2">
+<h2 class="hasAnchor">
+<a href="#another-example---customising-your-output" class="anchor"></a>Another Example - Customising your Output</h2>
+</div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
 
-      </div>
+        <nav id="toc" data-toggle="toc"><h2 data-toc-skip>Contents</h2>
+    </nav>
+</div>
 
 </div>
 

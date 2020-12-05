@@ -16,4 +16,68 @@ knitr::opts_chunk$set(
 
 ```{r setup}
 library(MplusReadR)
+library(MplusAutomation)
+library(data.tree)
+library(DiagrammeR)
 ```
+
+```{r, echo = FALSE}
+
+original_files <- c("test-file-1.out", "test file 2.out", "test(file)3.out")
+renamed_files <- c("test_file_1.out", "test_file_2.out", "test_file_3.out")
+
+```
+
+## A Basic Example
+
+### Read in the data 
+To start, load the relevant models using the `readModels()` function from the [MplusAutomation](https://cran.r-project.org/web/packages/MplusAutomation/index.html) package. 
+Before loading in the data, ensure there are no special characters such as brackets, dashes, or spaces, which prevent dataset titles from being formatted correctly, causing further issues down the line. You can quickly rename all your model output files using the function below. This will remove any special characters that might cause issues later.
+
+```{r, eval = FALSE}
+# Note: set your working directory to the folder your models are located in.
+fix_file_names(dir)
+```
+
+The original files:
+```{r}
+original_files
+```
+
+The renamed files:
+```{r}
+renamed_files
+```
+
+After this has been completed, load in your data. In this example we will be loading in a set of univariate models which include the predictor variables Negative Affect (na) and Positive Affect (pa), and the outcome variables depression (DEPR) and satisfaction with life (SWL). Always include `recursive = TRUE`, even if all your files are in one folder, as this will ensure that the dataset titles format properly. 
+
+```{r}
+models <- readModels('univariate_models', recursive = TRUE)
+```
+
+The models read in by the `readModels()` function will be saved as a list. The structure of each of the models is similar to this:
+
+```{r}
+as.Node(models[[1]])
+```
+
+### Creating a Tidy Dataset 
+
+The first aim of MplusReadR is to tabulate key output from these multiple Mplus files. Using the default settings will result in a tibble that displays all columns present in standardized section of the 'parameters' section of an Mplus file to three decimal places, as shown below. Use `?mplus_compile` or head to the reference page for [mplus_compile]("https://d-vanos.github.io/MplusReadR/reference/mplus_compile.html") to check the default options and learn about ways you can customise output. 
+
+```{r}
+tidy_data <- mplus_compile(Mplus_file = models)
+tidy_data
+```
+
+### Creating a html APA-style table
+
+The second aim of MplusReadR is to format the tabulated Mplus output created above into a html APA-style table. The default 
+
+```{r}
+#mplus_apa_table(tidy_data)
+
+
+```
+
+## Another Example - Customising your Output 
