@@ -17,12 +17,16 @@ knitr::opts_chunk$set(
 ```{r setup}
 library(MplusReadR)
 library(MplusAutomation)
+```
+
+```{r, echo = FALSE, message = FALSE, warning = FALSE}
 library(data.tree)
 library(DiagrammeR)
+library(dplyr)
 ```
 
 ```{r, echo = FALSE}
-
+# Prepare some files as an example 
 original_files <- c("test-file-1.out", "test file 2.out", "test(file)3.out")
 renamed_files <- c("test_file_1.out", "test_file_2.out", "test_file_3.out")
 
@@ -32,7 +36,7 @@ renamed_files <- c("test_file_1.out", "test_file_2.out", "test_file_3.out")
 
 ### Read in the data 
 To start, load the relevant models using the `readModels()` function from the [MplusAutomation](https://cran.r-project.org/web/packages/MplusAutomation/index.html) package. 
-Before loading in the data, ensure there are no special characters such as brackets, dashes, or spaces, which prevent dataset titles from being formatted correctly, causing further issues down the line. You can quickly rename all your model output files using the function below. This will remove any special characters that might cause issues later.
+Before loading in the data, ensure there are no special characters such as brackets, dashes, or spaces, which prevent dataset titles from being formatted correctly. This also causes further issues down the line. You can quickly rename all your model output files using the function below. This will remove any special characters that might cause issues later.
 
 ```{r, eval = FALSE}
 # Note: set your working directory to the folder your models are located in.
@@ -49,21 +53,21 @@ The renamed files:
 renamed_files
 ```
 
-After this has been completed, load in your data. In this example we will be loading in a set of univariate models which include the predictor variables Negative Affect (na) and Positive Affect (pa), and the outcome variables depression (DEPR) and satisfaction with life (SWL). Always include `recursive = TRUE`, even if all your files are in one folder, as this will ensure that the dataset titles format properly. 
+After this has been completed, load in your data. In this example we will be loading in a set of univariate models which include the predictor variables Negative Affect (na) and Positive Affect (pa), and the outcome variables depression (DEPR) and satisfaction with life (SWL). Always include `recursive = TRUE`, even if all your files are located in one folder, as this will ensure that the dataset titles format properly. 
 
 ```{r}
 models <- readModels('univariate_models', recursive = TRUE)
 ```
 
-The models read in by the `readModels()` function will be saved as a list. The structure of each of the models is similar to this:
+The models read in by the `readModels()` function will be saved as a list. The structure of each of the models is similar to that shown below. The collation function `mplus_compile` extracts data primarily from the section called 'parameters'. This structure is only displayed to show how the model output is read into R via `readModels()` and where the collated data in `mplus_compile()` comes from.
 
-```{r}
-as.Node(models[[1]])
+```{r, echo = FALSE}
+as.Node(models[[1]][1:14]) # Only selecting categories 1 to 14 from model 1
 ```
 
 ### Creating a Tidy Dataset 
 
-The first aim of MplusReadR is to tabulate key output from these multiple Mplus files. Using the default settings will result in a tibble that displays all columns present in standardized section of the 'parameters' section of an Mplus file to three decimal places, as shown below. Use `?mplus_compile` or head to the reference page for [mplus_compile]("https://d-vanos.github.io/MplusReadR/reference/mplus_compile.html") to check the default options and learn about ways you can customise output. 
+The first aim of MplusReadR is to tabulate key output from these Mplus files. Using the default settings will result in a tibble that displays all columns present in the standardized section of the 'parameters' section of an Mplus file (as shown in the structure above) to three decimal places (as shown below). Use `?mplus_compile` or head to the reference page for [mplus_compile]("https://d-vanos.github.io/MplusReadR/reference/mplus_compile.html") to check the default options and learn about ways you can customise output. 
 
 ```{r}
 tidy_data <- mplus_compile(Mplus_file = models)
@@ -72,12 +76,228 @@ tidy_data
 
 ### Creating a html APA-style table
 
-The second aim of MplusReadR is to format the tabulated Mplus output created above into a html APA-style table. The default 
+The second aim of MplusReadR is to format the tabulated Mplus output created above into a html APA-style table. The default behaviour of this function is to apply 12 point Times New Roman and general APA table formatting, with estimates and confidence intervals merged together, as shown below. Note this only shows a subset of the data.  
 
 ```{r}
-#mplus_apa_table(tidy_data)
+# Creating a subset of the tidy data
+tidy_data_short <- tidy_data %>% slice(1:3, 37:39)
 
+# Generating a APA-style html table
+table <- mplus_apa_table(data = tidy_data_short) 
+table
+```
+
+You can save the html table using the code below. Replace the x with the name of your table and specify the name of the file, ensuring the .html is kept at the end and the line separator (sep) stays the same.
+
+```{r}
+write(x = table, file = "table.html", sep = "\n") 
+```
+
+## Example 2: Customising the collated output
+
+There are several ways to customise the collated output created by `mplus_compile()`. 
+
+### Display Options 
+There are multiple column display options, which can be toggled using the `display` parameter. These are `display = "minimal"` and `display = "descriptives"`. 
+
+```{r}
+mplus_compile(Mplus_file = models, display = "minimal")
+mplus_compile(Mplus_file = models, display = "descriptives")
+```
+
+These can also be found using `?mplus_compile`. 
+
+Alternatively, you can manually specify which columns are displayed.
+
+```{r}
+mplus_compile(Mplus_file = models, 
+              display = c("dataset", "dataset_title", "paramHeader", "param", "est"))
+```
+
+
+### Filtering parameters and parameter headings 
+As well as specifying columns, you can specify which parameters (`parameter`) or parameter headings (`param_header`) are shown.
+
+```{r}
+mplus_compile(Mplus_file = models,
+              display = c("dataset", "dataset_title", "paramHeader", "param", "est"),
+              param_header = c("Z.ON", "NA.WITH"),
+              parameter = c("NAONNA", "NAVAR"))
+```
+
+The function uses partial filtering, which means that all words that contain a specified string will be displayed (as shown below). This makes it easier to quickly extract multiple parameters or parameter headings, like those that end in ".WITH". In this case it extracts NA.WITH, NAONNA.WITH, PA.WITH, etc. 
+
+```{r}
+mplus_compile(Mplus_file = models,
+              param_header = c(".WITH"))
+```
+
+The consequence is that it is possible that more parameters or parameter headings are displayed than expected. For example, if you are after the parameter "NA", it will also display "NAONNA" or "NAVAR" as these contain "NA". 
+
+```{r}
+mplus_compile(Mplus_file = models,
+              display = c("dataset", "dataset_title", "paramHeader", "param", "est"),
+              parameter = "NA")
+```
+
+You can address this issue by using regular expressions (regex). There are many regex rules you can apply, but two useful ones are: 
+
+
+* If a string STARTS with a particular set of characters, use `^`.    
+    + So if a string starts with NA, use `^NA`.   
+* If a string ENDS with a particular set of characters, use `$`.     
+    + So if a string ends with NA, use `NA$`.   
+
+```{r}
+mplus_compile(Mplus_file = models,
+              display = c("dataset", "dataset_title", "paramHeader", "param", "est"),
+              parameter = "NA$")
+```
+
+You can see that the 'param' column in the table above no longer contains NAVAR, as this string doesn't end in NA. If you want to specify just "NA" and not "NAONNA", use both `^` and `$`. This means the phrase must start and end with NA, and cannot contain anything else in the middle.
+
+```{r}
+mplus_compile(Mplus_file = models,
+              display = c("dataset", "dataset_title", "paramHeader", "param", "est"),
+              parameter = "^NA$")
+```
+
+Other aspects of the tibble that can be adjusted is the rounding, whether standardized output are displayed, whether non-converged models are automatically removed, and whether the content in the 'define' component of the output is displayed. More info on these arguments can be found [here](https://d-vanos.github.io/MplusReadR/reference/mplus_compile.html). 
+
+### Example 3: APA-style Table Options 
+
+There are also several display options for the APA-style tables. 
+
+#### Horizontal vs Vertical Output 
+By default all output is displayed (`type = "general"`) vertically (`orientation = "vertical"`) but output can also be displayed horizontally:
+
+```{r}
+# To start, we prepare a simpler dataset containing only the 
+# parameter header Z.ON and parameters containing NA. 
+tidy_z_on <- mplus_compile(Mplus_file = models,
+              param_header = "Z.ON", 
+              param = "^NA",
+              display = "minimal")
+
+# Displaying the results vertically (the default)
+mplus_apa_table(data = tidy_z_on,
+                orientation = "vertical")
+# Displaying the results horizontally
+mplus_apa_table(data = tidy_z_on,
+                orientation = "horizontal")
 
 ```
 
-## Another Example - Customising your Output 
+#### Correlations Tables 
+
+You can specify a correlations table using `type = "correlation"`, and specify the number of tables to display using `n_tables`. 
+
+You can specify one table (e.g. table 4, `n_tables = 4`), a range of tables (e.g., tables 3 through 7, `n_tables = 3:7`), or a specific subset of tables (e.g., tables 1 through 3 and table 5, `n_tables = c(1:3, 5)`).
+
+```{r}
+# First prepare your correlations table by ensuring only values in param_header "WITH" are shown
+tidy_cor <- mplus_compile(Mplus_file = models, 
+                            standardized = TRUE,  
+                            rounding = 3,
+                            param_header = "WITH",
+                            display = "minimal")
+
+
+# Save your html table as an object
+table <- mplus_apa_table(data = tidy_cor, 
+                type = "correlation",
+                n_tables = c(1:2, 5))
+
+```
+
+At this point you can show the correlations table/s in R like this:
+
+```{r}
+htmltools::HTML(table)
+```
+
+Or you can save the html table/s like this:
+
+```{r}
+
+write(table, file = "table.html", sep = "\n")
+
+```
+
+
+#### Multilevel Reliability
+
+For this example we will be loading in another dataset which contains alpha coefficients. 
+
+**Step 1: rename data files**  
+The data files originally look like this:
+
+```{r}
+dir <- "reliability"
+list.files(dir)
+```
+They contain prohibited characters such as brackets, spaces, and dashes, so these files will need to be renamed. 
+```{r, message = FALSE, eval = FALSE}
+
+fix_file_names(dir = dir)
+
+```
+
+The files are now ready to be read in.
+```{r, echo = FALSE}
+# change dir without the user seeing so we can show how the files can be changed
+dir <- "reliability_fixed"
+
+```
+
+```{r}
+list.files(dir)
+```
+**Step 2: Read in the data**  
+Remember to set `recursive = TRUE` regardless of whether there are subfolders, and set `target` to the directory your files are stored in.
+```{r, message = FALSE}
+reliability_data <- readModels(target = dir, recursive = TRUE)
+```
+
+```{r, message = FALSE, echo = FALSE, results = 'hide'}
+dir <- "C:/Users/dvano/OneDrive - The University of Melbourne/MPlus Automation Project/Package/MplusReadR/vignettes/reliability_fixed"
+
+reliability_data <- readModels(target = dir, recursive = TRUE)
+
+```
+
+
+**Step 3: Create a tidy dataset**
+
+For a multilevel reliability table we only want the parameters than contain ALPHA, and we're only interested in the estimates and confidence intervals so we'll set `display = minimal`. The alpha coefficients are unstandardized, so we need to set `standardized = FALSE`. 
+
+```{r}
+reliability_tidy <- mplus_compile(Mplus_file = reliability_data,
+                        standardized = FALSE,
+                        parameter = "ALPHA",
+                        display = "minimal")
+
+reliability_tidy
+```
+
+
+**Step 4: Apply APA formatting** 
+
+In this case we are only interested in standard formatting, but we want the results to be displayed horizontally by param (ALPHAW and ALPHAB) so we set `orientation = "horizontal"`.
+
+```{r}
+reliability_table <- mplus_apa_table(data = reliability_tidy,
+                                     type = "general",
+                                     orientation = "horizontal")
+
+htmltools::HTML(reliability_table)
+```
+
+**Step 5: Save your table**
+
+```{r}
+write(reliability_table, file = "reliability_table.html", sep = "\n")
+```
+
+
+
