@@ -17,19 +17,19 @@ mplus_apa_table(
 )
 }
 \arguments{
-\item{type}{words words}
+\item{type}{One of 'general' or 'correlation'. Defaults to 'general'.}
 
-\item{bold}{words words}
+\item{bold}{Whether significant results (as indicated by confidence intervals not including 0) should be bolded. Defaults to TRUE.}
 
-\item{CI}{words words}
+\item{CI}{Whether confidence intervals should be displayed in square brackets. Defaults to TRUE.}
 
-\item{SD}{words words}
+\item{SD}{Whether standard deviation should be displayed in round brackets. Defaults to FALSE. Note that CI and SD cannot both equal TRUE.}
 
-\item{triangle}{words words}
+\item{triangle}{Whether correlations tables, if applicable, should contain values in the upper or lower triangle. One of 'upper' or 'lower'. Defaults to "upper".}
 
-\item{header}{words words}
+\item{header}{Whether correlations tables should contain the name of the dataset. Defaults to TRUE.}
 
-\item{orientation}{words words}
+\item{orientation}{Whether the orientation of the table (if the type = 'general') should be vertical or horizontal. Defaults to "vertical".}
 }
 \value{
 APA-style table of Mplus output.

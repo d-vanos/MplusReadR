@@ -125,13 +125,13 @@ mplus_corr <- function(data, triangle = "lower", CI = TRUE, dataset_n = 1){
 #' @import htmlTable
 #' @import reshape2
 #'
-#' @param type words words
-#' @param bold words words
-#' @param CI words words
-#' @param SD words words
-#' @param triangle words words
-#' @param header words words
-#' @param orientation words words
+#' @param type One of 'general' or 'correlation'. Defaults to 'general'.
+#' @param bold Whether significant results (as indicated by confidence intervals not including 0) should be bolded. Defaults to TRUE.
+#' @param CI Whether confidence intervals should be displayed in square brackets. Defaults to TRUE.
+#' @param SD Whether standard deviation should be displayed in round brackets. Defaults to FALSE. Note that CI and SD cannot both equal TRUE.
+#' @param triangle Whether correlations tables, if applicable, should contain values in the upper or lower triangle. One of 'upper' or 'lower'. Defaults to "upper".
+#' @param header Whether correlations tables should contain the name of the dataset. Defaults to TRUE.
+#' @param orientation Whether the orientation of the table (if the type = 'general') should be vertical or horizontal. Defaults to "vertical".
 #'
 #' @return APA-style table of Mplus output.
 #' @export
