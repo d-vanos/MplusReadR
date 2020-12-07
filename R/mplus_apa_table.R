@@ -7,7 +7,6 @@
 
 # HTML formatting
 formatting <- function(data, table_title = NULL){
-  data <- data %>% select(-dataset)
   data %>%
   addHtmlTableStyle(css.tspanner = "font-family: Times New Roman, Times, serif;",
                     css.cgroup = "font-family: Times New Roman, Times, serif;", # For the top heading
@@ -204,7 +203,7 @@ mplus_apa_table <- function(data,
 
 
   #### Correlations Tables ####
-  if(type == "correlation"){
+  else if(type == "correlation"){
 
     # Initialise the html table object
     html_table <- NULL
@@ -222,7 +221,7 @@ mplus_apa_table <- function(data,
         table_title <- as.character(data[data$dataset == n, "dataset_title"][[1]][1])
 
         # Add html formatting
-        cor_data <- formatting(data = data, table_title = table_title)
+        cor_data <- formatting(data = cor_data, table_title = table_title)
       }
 
       # Add html formatting without displaying header
