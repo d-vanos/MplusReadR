@@ -143,7 +143,8 @@ mplus_apa_table <- function(data,
                             SD = FALSE,
                             triangle = "lower",
                             header = TRUE,
-                            orientation = "vertical"){
+                            orientation = "vertical",
+                            n_tables = NULL){
 
   #### General APA Table ####
   if(type == "general"){
@@ -206,7 +207,7 @@ mplus_apa_table <- function(data,
   else if(type == "correlation"){
 
     # Initialise the html table object
-    html_table <- NULL
+    html_table <- tibble()
 
     # Formatting all the correlations tables and adding them to the html_table object created above
     for (n in 1:length(unique(data$dataset_title))){
@@ -231,11 +232,17 @@ mplus_apa_table <- function(data,
       }
 
       # Add to list of tables
-      html_table <- paste(html_table, cor_data)
+      html_table[n, "table_contents"] <- cor_data
     }
 
-    # Remove the \\n's created by the html table
-    #html_table <- gsub(pattern = "\\n", replacement = "", x = html_table)
+    # Select only html tables of interest
+    if(!is.null(n_tables)){
+      html_table <- html_table %>% slice(n_tables)
+    }
+
+    # Merge
+    html_table <- paste(as_vector(html_table), collapse = '')
+
   }
 
 

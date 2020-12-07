@@ -12,7 +12,8 @@ mplus_apa_table(
   SD = FALSE,
   triangle = "lower",
   header = TRUE,
-  orientation = "vertical"
+  orientation = "vertical",
+  n_tables = NULL
 )
 }
 \arguments{
