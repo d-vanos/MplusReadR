@@ -164,11 +164,11 @@ mplus_compile(Mplus_file = models,
 
 Other aspects of the tibble that can be adjusted is the rounding, whether standardized output are displayed, whether non-converged models are automatically removed, and whether the content in the 'define' component of the output is displayed. More info on these arguments can be found [here](https://d-vanos.github.io/MplusReadR/reference/mplus_compile.html). 
 
-### Example 3: APA-style Table Options 
+## Example 3: APA-style Table Options 
 
 There are also several display options for the APA-style tables. 
 
-#### Horizontal vs Vertical Output 
+### Horizontal vs Vertical Output 
 By default all output is displayed (`type = "general"`) vertically (`orientation = "vertical"`) but output can also be displayed horizontally:
 
 ```{r}
@@ -188,7 +188,7 @@ mplus_apa_table(data = tidy_z_on,
 
 ```
 
-#### Correlations Tables 
+### Correlations Tables 
 
 You can specify a correlations table using `type = "correlation"`, and specify the number of tables to display using `n_tables`. 
 
@@ -225,7 +225,7 @@ write(table, file = "table.html", sep = "\n")
 ```
 
 
-#### Multilevel Reliability
+### Multilevel Reliability
 
 For this example we will be loading in another dataset which contains alpha coefficients. 
 
