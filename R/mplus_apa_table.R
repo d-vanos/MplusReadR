@@ -74,7 +74,7 @@ mplus_corr <- function(data, triangle = "lower", CI = TRUE, dataset_n = 1){
                       data.frame(Var1=vars, Var2=vars, value ="-"))
 
   # Create correlation matrix and format row names
-  cor_matrix <- dcast(cor_matrix, Var1~Var2, value.var='value')
+  cor_matrix <- reshape2::dcast(cor_matrix, Var1~Var2, value.var='value')
   rownames(cor_matrix) <- cor_matrix[,1]
   cor_matrix <- as.matrix(cor_matrix[-1])
 
@@ -213,7 +213,7 @@ mplus_apa_table <- function(data,
     for (n in 1:length(unique(data$dataset_title))){
 
       # Create correlation table
-      data <- mplus_corr(data = data, triangle = triangle, CI = CI, dataset_n = n)
+      cor_data <- mplus_corr(data = data, triangle = triangle, CI = CI, dataset_n = n)
 
       # Add html formatting with table title
       if(header == TRUE){
@@ -222,17 +222,17 @@ mplus_apa_table <- function(data,
         table_title <- as.character(data[data$dataset == n, "dataset_title"][[1]][1])
 
         # Add html formatting
-        data <- formatting(data = data, table_title = table_title)
+        cor_data <- formatting(data = data, table_title = table_title)
       }
 
       # Add html formatting without displaying header
       else if(header == FALSE){
 
-        data <- formatting(data = data)
+        cor_data <- formatting(data = cor_data)
       }
 
       # Add to list of tables
-      html_table <- paste(html_table, data)
+      html_table <- paste(html_table, cor_data)
     }
 
     # Remove the \\n's created by the html table
