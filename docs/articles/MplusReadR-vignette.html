@@ -95,18 +95,14 @@
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Hallquist, M. N. &amp; Wiley, J. F. (2018). MplusAutomation: An R Package for Facilitating Large-Scale Latent Variable Analyses in Mplus. Structural Equation Modeling, 25, 621-638. doi: 10.1080/10705511.2017.1402334.</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; -- see citation("MplusAutomation").</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://github.com/gluc/data.tree">data.tree</a></span><span class="op">)</span>
-<span class="co">#&gt; Warning: package 'data.tree' was built under R version 4.0.3</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/rich-iannone/DiagrammeR">DiagrammeR</a></span><span class="op">)</span>
-<span class="co">#&gt; Warning: package 'DiagrammeR' was built under R version 4.0.3</span></code></pre></div>
+<span class="co">#&gt; -- see citation("MplusAutomation").</span></code></pre></div>
 <div id="a-basic-example" class="section level2">
 <h2 class="hasAnchor">
 <a href="#a-basic-example" class="anchor"></a>A Basic Example</h2>
 <div id="read-in-the-data" class="section level3">
 <h3 class="hasAnchor">
 <a href="#read-in-the-data" class="anchor"></a>Read in the data</h3>
-<p>To start, load the relevant models using the <code><a href="https://rdrr.io/pkg/MplusAutomation/man/readModels.html">readModels()</a></code> function from the <a href="https://cran.r-project.org/web/packages/MplusAutomation/index.html">MplusAutomation</a> package. Before loading in the data, ensure there are no special characters such as brackets, dashes, or spaces, which prevent dataset titles from being formatted correctly, causing further issues down the line. You can quickly rename all your model output files using the function below. This will remove any special characters that might cause issues later.</p>
+<p>To start, load the relevant models using the <code><a href="https://rdrr.io/pkg/MplusAutomation/man/readModels.html">readModels()</a></code> function from the <a href="https://cran.r-project.org/web/packages/MplusAutomation/index.html">MplusAutomation</a> package. Before loading in the data, ensure there are no special characters such as brackets, dashes, or spaces, which prevent dataset titles from being formatted correctly. This also causes further issues down the line. You can quickly rename all your model output files using the function below. This will remove any special characters that might cause issues later.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Note: set your working directory to the folder your models are located in.</span>
 <span class="fu"><a href="../reference/fix_file_names.html">fix_file_names</a></span><span class="op">(</span><span class="va">dir</span><span class="op">)</span></code></pre></div>
@@ -118,141 +114,64 @@
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">renamed_files</span>
 <span class="co">#&gt; [1] "test_file_1.out" "test_file_2.out" "test_file_3.out"</span></code></pre></div>
-<p>After this has been completed, load in your data. In this example we will be loading in a set of univariate models which include the predictor variables Negative Affect (na) and Positive Affect (pa), and the outcome variables depression (DEPR) and satisfaction with life (SWL). Always include <code>recursive = TRUE</code>, even if all your files are in one folder, as this will ensure that the dataset titles format properly.</p>
+<p>After this has been completed, load in your data. In this example we will be loading in a set of univariate models which include the predictor variables Negative Affect (na) and Positive Affect (pa), and the outcome variables depression (DEPR) and satisfaction with life (SWL). Always include <code>recursive = TRUE</code>, even if all your files are located in one folder, as this will ensure that the dataset titles format properly.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">models</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/MplusAutomation/man/readModels.html">readModels</a></span><span class="op">(</span><span class="st">'univariate_models'</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="co">#&gt; Reading model:  univariate_models/predictDEP/naAR predict DEPR/1_naAR_CESD.out </span>
 <span class="co">#&gt; Reading model:  univariate_models/predictDEP/naAR predict DEPR/2_naAR_CESD.out </span>
 <span class="co">#&gt; Reading model:  univariate_models/predictDEP/naAR predict DEPR/3_naAR_QIDS.out </span>
-<span class="co">#&gt; Reading model:  univariate_models/predictDEP/naAR predict DEPR/4_naAR_ADPIVBPD.out </span>
-<span class="co">#&gt; Reading model:  univariate_models/predictDEP/naAR predict DEPR/5_naAR_CESD.out </span>
 <span class="co">#&gt; Reading model:  univariate_models/predictDEP/paAR predict DEPR/1_paAR_CESD.out </span>
 <span class="co">#&gt; Reading model:  univariate_models/predictDEP/paAR predict DEPR/2_paAR_CESD.out </span>
 <span class="co">#&gt; Reading model:  univariate_models/predictDEP/paAR predict DEPR/3_paAR_QIDS.out </span>
-<span class="co">#&gt; Reading model:  univariate_models/predictDEP/paAR predict DEPR/4_paAR_ADPIVBPD.out </span>
-<span class="co">#&gt; Reading model:  univariate_models/predictDEP/paAR predict DEPR/5_paAR_CESD.out </span>
 <span class="co">#&gt; Reading model:  univariate_models/predictSWL/naAR predict SWL/1_naAR_SWL.out </span>
 <span class="co">#&gt; Reading model:  univariate_models/predictSWL/naAR predict SWL/2_naAR_SWL.out </span>
 <span class="co">#&gt; Reading model:  univariate_models/predictSWL/naAR predict SWL/3_naAR_SWL.out </span>
-<span class="co">#&gt; Reading model:  univariate_models/predictSWL/naAR predict SWL/5_naAR_SWL.out </span>
 <span class="co">#&gt; Reading model:  univariate_models/predictSWL/paAR predict SWL/1_paAR_SWL.out </span>
 <span class="co">#&gt; Reading model:  univariate_models/predictSWL/paAR predict SWL/2_paAR_SWL.out </span>
-<span class="co">#&gt; Reading model:  univariate_models/predictSWL/paAR predict SWL/3_paAR_SWL.out </span>
-<span class="co">#&gt; Reading model:  univariate_models/predictSWL/paAR predict SWL/5_paAR_SWL.out</span></code></pre></div>
-<p>The models read in by the <code><a href="https://rdrr.io/pkg/MplusAutomation/man/readModels.html">readModels()</a></code> function will be saved as a list. The structure of each of the models is similar to this:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/data.tree/man/as.Node.html">as.Node</a></span><span class="op">(</span><span class="va">models</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>
-<span class="co">#&gt;                          levelName</span>
-<span class="co">#&gt; 1   Root                          </span>
-<span class="co">#&gt; 2    ¦--input                     </span>
-<span class="co">#&gt; 3    ¦   ¦--data                  </span>
-<span class="co">#&gt; 4    ¦   ¦--variable              </span>
-<span class="co">#&gt; 5    ¦   °--analysis              </span>
-<span class="co">#&gt; 6    ¦--warnings                  </span>
-<span class="co">#&gt; 7    ¦--errors                    </span>
-<span class="co">#&gt; 8    ¦--data_summary              </span>
-<span class="co">#&gt; 9    ¦   °--overall               </span>
-<span class="co">#&gt; 10   ¦--sampstat                  </span>
-<span class="co">#&gt; 11   ¦--summaries                 </span>
-<span class="co">#&gt; 12   ¦--invariance_testing        </span>
-<span class="co">#&gt; 13   ¦--parameters                </span>
-<span class="co">#&gt; 14   ¦   ¦--unstandardized        </span>
-<span class="co">#&gt; 15   ¦   ¦--r2                    </span>
-<span class="co">#&gt; 16   ¦   ¦--ci.unstandardized     </span>
-<span class="co">#&gt; 17   ¦   ¦--stdyx.standardized    </span>
-<span class="co">#&gt; 18   ¦   ¦--ci.stdyx.standardized </span>
-<span class="co">#&gt; 19   ¦   °--wilevel.standardized  </span>
-<span class="co">#&gt; 20   ¦       ¦--stdyx.standardized</span>
-<span class="co">#&gt; 21   ¦       °--r2                </span>
-<span class="co">#&gt; 22   ¦--class_counts              </span>
-<span class="co">#&gt; 23   ¦--indirect                  </span>
-<span class="co">#&gt; 24   ¦--residuals                 </span>
-<span class="co">#&gt; 25   ¦--tech1                     </span>
-<span class="co">#&gt; 26   ¦   ¦--parameterSpecification</span>
-<span class="co">#&gt; 27   ¦   ¦   ¦--WITHIN            </span>
-<span class="co">#&gt; 28   ¦   ¦   °--BETWEEN           </span>
-<span class="co">#&gt; 29   ¦   °--startingValues        </span>
-<span class="co">#&gt; 30   ¦       ¦--WITHIN            </span>
-<span class="co">#&gt; 31   ¦       °--BETWEEN           </span>
-<span class="co">#&gt; 32   ¦--tech3                     </span>
-<span class="co">#&gt; 33   ¦--tech4                     </span>
-<span class="co">#&gt; 34   ¦   ¦--BETWEEN               </span>
-<span class="co">#&gt; 35   ¦   ¦--CLUSTER.16.FOR.WITHIN </span>
-<span class="co">#&gt; 36   ¦   ¦--CLUSTER.6.FOR.WITHIN  </span>
-<span class="co">#&gt; 37   ¦   ¦--CLUSTER.3.FOR.WITHIN  </span>
-<span class="co">#&gt; 38   ¦   ¦--CLUSTER.17.FOR.WITHIN </span>
-<span class="co">#&gt; 39   ¦   ¦--CLUSTER.19.FOR.WITHIN </span>
-<span class="co">#&gt; 40   ¦   ¦--CLUSTER.20.FOR.WITHIN </span>
-<span class="co">#&gt; 41   ¦   ¦--CLUSTER.35.FOR.WITHIN </span>
-<span class="co">#&gt; 42   ¦   ¦--CLUSTER.47.FOR.WITHIN </span>
-<span class="co">#&gt; 43   ¦   ¦--CLUSTER.64.FOR.WITHIN </span>
-<span class="co">#&gt; 44   ¦   ¦--CLUSTER.68.FOR.WITHIN </span>
-<span class="co">#&gt; 45   ¦   ¦--CLUSTER.71.FOR.WITHIN </span>
-<span class="co">#&gt; 46   ¦   ¦--CLUSTER.13.FOR.WITHIN </span>
-<span class="co">#&gt; 47   ¦   ¦--CLUSTER.1.FOR.WITHIN  </span>
-<span class="co">#&gt; 48   ¦   ¦--CLUSTER.5.FOR.WITHIN  </span>
-<span class="co">#&gt; 49   ¦   ¦--CLUSTER.2.FOR.WITHIN  </span>
-<span class="co">#&gt; 50   ¦   ¦--CLUSTER.7.FOR.WITHIN  </span>
-<span class="co">#&gt; 51   ¦   ¦--CLUSTER.21.FOR.WITHIN </span>
-<span class="co">#&gt; 52   ¦   ¦--CLUSTER.22.FOR.WITHIN </span>
-<span class="co">#&gt; 53   ¦   ¦--CLUSTER.23.FOR.WITHIN </span>
-<span class="co">#&gt; 54   ¦   ¦--CLUSTER.24.FOR.WITHIN </span>
-<span class="co">#&gt; 55   ¦   ¦--CLUSTER.25.FOR.WITHIN </span>
-<span class="co">#&gt; 56   ¦   ¦--CLUSTER.27.FOR.WITHIN </span>
-<span class="co">#&gt; 57   ¦   ¦--CLUSTER.28.FOR.WITHIN </span>
-<span class="co">#&gt; 58   ¦   ¦--CLUSTER.29.FOR.WITHIN </span>
-<span class="co">#&gt; 59   ¦   ¦--CLUSTER.30.FOR.WITHIN </span>
-<span class="co">#&gt; 60   ¦   ¦--CLUSTER.31.FOR.WITHIN </span>
-<span class="co">#&gt; 61   ¦   ¦--CLUSTER.32.FOR.WITHIN </span>
-<span class="co">#&gt; 62   ¦   ¦--CLUSTER.33.FOR.WITHIN </span>
-<span class="co">#&gt; 63   ¦   ¦--CLUSTER.8.FOR.WITHIN  </span>
-<span class="co">#&gt; 64   ¦   ¦--CLUSTER.36.FOR.WITHIN </span>
-<span class="co">#&gt; 65   ¦   ¦--CLUSTER.38.FOR.WITHIN </span>
-<span class="co">#&gt; 66   ¦   ¦--CLUSTER.41.FOR.WITHIN </span>
-<span class="co">#&gt; 67   ¦   ¦--CLUSTER.42.FOR.WITHIN </span>
-<span class="co">#&gt; 68   ¦   ¦--CLUSTER.44.FOR.WITHIN </span>
-<span class="co">#&gt; 69   ¦   ¦--CLUSTER.46.FOR.WITHIN </span>
-<span class="co">#&gt; 70   ¦   ¦--CLUSTER.9.FOR.WITHIN  </span>
-<span class="co">#&gt; 71   ¦   ¦--CLUSTER.48.FOR.WITHIN </span>
-<span class="co">#&gt; 72   ¦   ¦--CLUSTER.49.FOR.WITHIN </span>
-<span class="co">#&gt; 73   ¦   ¦--CLUSTER.50.FOR.WITHIN </span>
-<span class="co">#&gt; 74   ¦   ¦--CLUSTER.51.FOR.WITHIN </span>
-<span class="co">#&gt; 75   ¦   ¦--CLUSTER.52.FOR.WITHIN </span>
-<span class="co">#&gt; 76   ¦   ¦--CLUSTER.53.FOR.WITHIN </span>
-<span class="co">#&gt; 77   ¦   ¦--CLUSTER.55.FOR.WITHIN </span>
-<span class="co">#&gt; 78   ¦   ¦--CLUSTER.56.FOR.WITHIN </span>
-<span class="co">#&gt; 79   ¦   ¦--CLUSTER.57.FOR.WITHIN </span>
-<span class="co">#&gt; 80   ¦   ¦--CLUSTER.58.FOR.WITHIN </span>
-<span class="co">#&gt; 81   ¦   ¦--CLUSTER.59.FOR.WITHIN </span>
-<span class="co">#&gt; 82   ¦   ¦--CLUSTER.60.FOR.WITHIN </span>
-<span class="co">#&gt; 83   ¦   ¦--CLUSTER.61.FOR.WITHIN </span>
-<span class="co">#&gt; 84   ¦   ¦--CLUSTER.62.FOR.WITHIN </span>
-<span class="co">#&gt; 85   ¦   ¦--CLUSTER.63.FOR.WITHIN </span>
-<span class="co">#&gt; 86   ¦   ¦--CLUSTER.10.FOR.WITHIN </span>
-<span class="co">#&gt; 87   ¦   ¦--CLUSTER.65.FOR.WITHIN </span>
-<span class="co">#&gt; 88   ¦   ¦--CLUSTER.66.FOR.WITHIN </span>
-<span class="co">#&gt; 89   ¦   ¦--CLUSTER.67.FOR.WITHIN </span>
-<span class="co">#&gt; 90   ¦   ¦--CLUSTER.11.FOR.WITHIN </span>
-<span class="co">#&gt; 91   ¦   ¦--CLUSTER.69.FOR.WITHIN </span>
-<span class="co">#&gt; 92   ¦   ¦--CLUSTER.70.FOR.WITHIN </span>
-<span class="co">#&gt; 93   ¦   ¦--CLUSTER.12.FOR.WITHIN </span>
-<span class="co">#&gt; 94   ¦   ¦--CLUSTER.74.FOR.WITHIN </span>
-<span class="co">#&gt; 95   ¦   ¦--CLUSTER.75.FOR.WITHIN </span>
-<span class="co">#&gt; 96   ¦   ¦--CLUSTER.76.FOR.WITHIN </span>
-<span class="co">#&gt; 97   ¦   ¦--CLUSTER.77.FOR.WITHIN </span>
-<span class="co">#&gt; 98   ¦   ¦--CLUSTER.79.FOR.WITHIN </span>
-<span class="co">#&gt; 99   ¦   ¦--CLUSTER.80.FOR.WITHIN </span>
-<span class="co">#&gt; 100  ¦   °--... 29 nodes w/ 0 sub </span>
-<span class="co">#&gt; 101  °--... 8 nodes w/ 30 sub</span></code></pre></div>
+<span class="co">#&gt; Reading model:  univariate_models/predictSWL/paAR predict SWL/3_paAR_SWL.out</span></code></pre></div>
+<p>The models read in by the <code><a href="https://rdrr.io/pkg/MplusAutomation/man/readModels.html">readModels()</a></code> function will be saved as a list. The structure of each of the models is similar to that shown below. The collation function <code>mplus_compile</code> extracts data primarily from the section called ‘parameters’. This structure is only displayed to show how the model output is read into R via <code><a href="https://rdrr.io/pkg/MplusAutomation/man/readModels.html">readModels()</a></code> and where the collated data in <code><a href="../reference/mplus_compile.html">mplus_compile()</a></code> comes from.</p>
+<pre><code>#&gt;                         levelName
+#&gt; 1  Root                          
+#&gt; 2   ¦--input                     
+#&gt; 3   ¦   ¦--data                  
+#&gt; 4   ¦   ¦--variable              
+#&gt; 5   ¦   °--analysis              
+#&gt; 6   ¦--warnings                  
+#&gt; 7   ¦--errors                    
+#&gt; 8   ¦--data_summary              
+#&gt; 9   ¦   °--overall               
+#&gt; 10  ¦--sampstat                  
+#&gt; 11  ¦--summaries                 
+#&gt; 12  ¦--invariance_testing        
+#&gt; 13  ¦--parameters                
+#&gt; 14  ¦   ¦--unstandardized        
+#&gt; 15  ¦   ¦--r2                    
+#&gt; 16  ¦   ¦--ci.unstandardized     
+#&gt; 17  ¦   ¦--stdyx.standardized    
+#&gt; 18  ¦   ¦--ci.stdyx.standardized 
+#&gt; 19  ¦   °--wilevel.standardized  
+#&gt; 20  ¦       ¦--stdyx.standardized
+#&gt; 21  ¦       °--r2                
+#&gt; 22  ¦--class_counts              
+#&gt; 23  ¦--indirect                  
+#&gt; 24  ¦--residuals                 
+#&gt; 25  ¦--tech1                     
+#&gt; 26  ¦   ¦--parameterSpecification
+#&gt; 27  ¦   ¦   ¦--WITHIN            
+#&gt; 28  ¦   ¦   °--BETWEEN           
+#&gt; 29  ¦   °--startingValues        
+#&gt; 30  ¦       ¦--WITHIN            
+#&gt; 31  ¦       °--BETWEEN           
+#&gt; 32  °--tech3</code></pre>
 </div>
 <div id="creating-a-tidy-dataset" class="section level3">
 <h3 class="hasAnchor">
 <a href="#creating-a-tidy-dataset" class="anchor"></a>Creating a Tidy Dataset</h3>
-<p>The first aim of MplusReadR is to tabulate key output from these multiple Mplus files. Using the default settings will result in a tibble that displays all columns present in standardized section of the ‘parameters’ section of an Mplus file to three decimal places, as shown below. Use <code><a href="../reference/mplus_compile.html">?mplus_compile</a></code> or head to the reference page for <a href="%22https://d-vanos.github.io/MplusReadR/reference/mplus_compile.html%22">mplus_compile</a> to check the default options and learn about ways you can customise output.</p>
+<p>The first aim of MplusReadR is to tabulate key output from these Mplus files. Using the default settings will result in a tibble that displays all columns present in the standardized section of the ‘parameters’ section of an Mplus file (as shown in the structure above) to three decimal places (as shown below). Use <code><a href="../reference/mplus_compile.html">?mplus_compile</a></code> or head to the reference page for <a href="%22https://d-vanos.github.io/MplusReadR/reference/mplus_compile.html%22">mplus_compile</a> to check the default options and learn about ways you can customise output.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">tidy_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mplus_compile.html">mplus_compile</a></span><span class="op">(</span>Mplus_file <span class="op">=</span> <span class="va">models</span><span class="op">)</span>
 <span class="va">tidy_data</span>
-<span class="co">#&gt; # A tibble: 324 x 13</span>
+<span class="co">#&gt; # A tibble: 216 x 13</span>
 <span class="co">#&gt;    dataset dataset_title     T     N paramHeader param est   posterior_sd pval </span>
 <span class="co">#&gt;      &lt;int&gt; &lt;chr&gt;         &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;       &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;        &lt;chr&gt;</span>
 <span class="co">#&gt;  1       1 1_naAR_CESD    2808    94 NAONNA|NA.~ NA&amp;1  0.20  0.02         0.00 </span>
@@ -265,20 +184,1327 @@
 <span class="co">#&gt;  8       1 1_naAR_CESD    2808    94 NAONNA.WITH NAVAR -0.13 0.17         0.23 </span>
 <span class="co">#&gt;  9       1 1_naAR_CESD    2808    94 Means       NA    2.26  0.21         0.00 </span>
 <span class="co">#&gt; 10       1 1_naAR_CESD    2808    94 Means       NAON~ 1.08  0.26         0.00 </span>
-<span class="co">#&gt; # ... with 314 more rows, and 4 more variables: lower_2.5ci &lt;chr&gt;,</span>
+<span class="co">#&gt; # ... with 206 more rows, and 4 more variables: lower_2.5ci &lt;chr&gt;,</span>
 <span class="co">#&gt; #   upper_2.5ci &lt;chr&gt;, sig &lt;lgl&gt;, BetweenWithin &lt;chr&gt;</span></code></pre></div>
 </div>
 <div id="creating-a-html-apa-style-table" class="section level3">
 <h3 class="hasAnchor">
 <a href="#creating-a-html-apa-style-table" class="anchor"></a>Creating a html APA-style table</h3>
-<p>The second aim of MplusReadR is to format the tabulated Mplus output created above into a html APA-style table. The default</p>
+<p>The second aim of MplusReadR is to format the tabulated Mplus output created above into a html APA-style table. The default behaviour of this function is to apply 12 point Times New Roman and general APA table formatting, with estimates and confidence intervals merged together, as shown below. Note this only shows a subset of the data.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co">#mplus_apa_table(tidy_data)</span></code></pre></div>
+<code class="sourceCode R"><span class="co"># Creating a subset of the tidy data</span>
+<span class="va">tidy_data_short</span> <span class="op">&lt;-</span> <span class="va">tidy_data</span> <span class="op">%&gt;%</span> <span class="fu">slice</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, <span class="fl">37</span><span class="op">:</span><span class="fl">39</span><span class="op">)</span>
+
+<span class="co"># Generating a APA-style html table</span>
+<span class="va">table</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mplus_apa_table.html">mplus_apa_table</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">tidy_data_short</span><span class="op">)</span> 
+<span class="va">table</span></code></pre></div>
+<table class="table gmisc_table">
+<thead><tr>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey;">
+</th>
+<th style="font-family: Times New Roman, Times, serif; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+dataset
+</th>
+<th style="font-family: Times New Roman, Times, serif; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+dataset_title
+</th>
+<th style="font-family: Times New Roman, Times, serif; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+T
+</th>
+<th style="font-family: Times New Roman, Times, serif; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+N
+</th>
+<th style="font-family: Times New Roman, Times, serif; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+paramHeader
+</th>
+<th style="font-family: Times New Roman, Times, serif; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+param
+</th>
+<th style="font-family: Times New Roman, Times, serif; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+posterior_sd
+</th>
+<th style="font-family: Times New Roman, Times, serif; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+pval
+</th>
+<th style="font-family: Times New Roman, Times, serif; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+sig
+</th>
+<th style="font-family: Times New Roman, Times, serif; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+BetweenWithin
+</th>
+<th style="font-family: Times New Roman, Times, serif; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+value
+</th>
+</tr></thead>
+<tbody>
+<tr>
+<td style="font-family: Times New Roman, Times, serif; text-align: left;">
+1
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+1
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+1_naAR_CESD
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+2808
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+94
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+NAONNA|NA.ON
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+NA&amp;1
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+0.02
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+0.00
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+TRUE
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+Within.Std.Averaged.Over.Clusters
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+<b>0.20 <br> [0.16, 0.24]</b>
+</td>
+</tr>
+<tr>
+<td style="font-family: Times New Roman, Times, serif; text-align: left;">
+2
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+1
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+1_naAR_CESD
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+2808
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+94
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+NAVAR.|
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+NA
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+0.01
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+0.00
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+TRUE
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+Within.Std.Averaged.Over.Clusters
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+<b>0.92 <br> [0.90, 0.95]</b>
+</td>
+</tr>
+<tr>
+<td style="font-family: Times New Roman, Times, serif; text-align: left;">
+3
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+1
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+1_naAR_CESD
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+2808
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+94
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+Z.ON
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+NAONNA
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+0.15
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+0.01
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+TRUE
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+Between
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+<b>0.35 <br> [0.06, 0.63]</b>
+</td>
+</tr>
+<tr>
+<td style="font-family: Times New Roman, Times, serif; text-align: left;">
+4
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+3
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+3_naAR_QIDS
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+12355
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+118
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+NAONNA|NA.ON
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+NA&amp;1
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+0.01
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+0.00
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+TRUE
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+Within.Std.Averaged.Over.Clusters
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+<b>0.38 <br> [0.36, 0.41]</b>
+</td>
+</tr>
+<tr>
+<td style="font-family: Times New Roman, Times, serif; text-align: left;">
+5
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+3
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+3_naAR_QIDS
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+12355
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+118
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+NAVAR.|
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+NA
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+0.01
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+0.00
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+TRUE
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+Within.Std.Averaged.Over.Clusters
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+<b>0.82 <br> [0.80, 0.84]</b>
+</td>
+</tr>
+<tr>
+<td style="font-family: Times New Roman, Times, serif; border-bottom: 2px solid grey; text-align: left;">
+6
+</td>
+<td style="font-family: Times New Roman, Times, serif; border-bottom: 2px solid grey; text-align: center;">
+3
+</td>
+<td style="font-family: Times New Roman, Times, serif; border-bottom: 2px solid grey; text-align: center;">
+3_naAR_QIDS
+</td>
+<td style="font-family: Times New Roman, Times, serif; border-bottom: 2px solid grey; text-align: center;">
+12355
+</td>
+<td style="font-family: Times New Roman, Times, serif; border-bottom: 2px solid grey; text-align: center;">
+118
+</td>
+<td style="font-family: Times New Roman, Times, serif; border-bottom: 2px solid grey; text-align: center;">
+Z.ON
+</td>
+<td style="font-family: Times New Roman, Times, serif; border-bottom: 2px solid grey; text-align: center;">
+NAONNA
+</td>
+<td style="font-family: Times New Roman, Times, serif; border-bottom: 2px solid grey; text-align: center;">
+0.08
+</td>
+<td style="font-family: Times New Roman, Times, serif; border-bottom: 2px solid grey; text-align: center;">
+0.27
+</td>
+<td style="font-family: Times New Roman, Times, serif; border-bottom: 2px solid grey; text-align: center;">
+FALSE
+</td>
+<td style="font-family: Times New Roman, Times, serif; border-bottom: 2px solid grey; text-align: center;">
+Between
+</td>
+<td style="font-family: Times New Roman, Times, serif; border-bottom: 2px solid grey; text-align: center;">
+0.05 <br> [-0.11, 0.21]
+</td>
+</tr>
+</tbody>
+</table>
+<p>You can save the html table using the code below. Replace the x with the name of your table and specify the name of the file, ensuring the .html is kept at the end and the line separator (sep) stays the same.</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/write.html">write</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">table</span>, file <span class="op">=</span> <span class="st">"table.html"</span>, sep <span class="op">=</span> <span class="st">"\n"</span><span class="op">)</span> </code></pre></div>
 </div>
 </div>
-<div id="another-example---customising-your-output" class="section level2">
+<div id="example-2-customising-the-collated-output" class="section level2">
 <h2 class="hasAnchor">
-<a href="#another-example---customising-your-output" class="anchor"></a>Another Example - Customising your Output</h2>
+<a href="#example-2-customising-the-collated-output" class="anchor"></a>Example 2: Customising the collated output</h2>
+<p>There are several ways to customise the collated output created by <code><a href="../reference/mplus_compile.html">mplus_compile()</a></code>.</p>
+<div id="display-options" class="section level3">
+<h3 class="hasAnchor">
+<a href="#display-options" class="anchor"></a>Display Options</h3>
+<p>There are multiple column display options, which can be toggled using the <code>display</code> parameter. These are <code>display = "minimal"</code> and <code>display = "descriptives"</code>.</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/mplus_compile.html">mplus_compile</a></span><span class="op">(</span>Mplus_file <span class="op">=</span> <span class="va">models</span>, display <span class="op">=</span> <span class="st">"minimal"</span><span class="op">)</span>
+<span class="co">#&gt; # A tibble: 216 x 7</span>
+<span class="co">#&gt;    dataset dataset_title paramHeader  param  est   lower_2.5ci upper_2.5ci</span>
+<span class="co">#&gt;      &lt;int&gt; &lt;chr&gt;         &lt;chr&gt;        &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;       &lt;chr&gt;      </span>
+<span class="co">#&gt;  1       1 1_naAR_CESD   NAONNA|NA.ON NA&amp;1   0.20  0.16        0.24       </span>
+<span class="co">#&gt;  2       1 1_naAR_CESD   NAVAR.|      NA     0.92  0.90        0.95       </span>
+<span class="co">#&gt;  3       1 1_naAR_CESD   Z.ON         NAONNA 0.35  0.06        0.63       </span>
+<span class="co">#&gt;  4       1 1_naAR_CESD   Z.ON         NAVAR  0.14  -0.08       0.36       </span>
+<span class="co">#&gt;  5       1 1_naAR_CESD   Z.ON         NA     0.42  0.21        0.63       </span>
+<span class="co">#&gt;  6       1 1_naAR_CESD   NA.WITH      NAONNA 0.22  -0.10       0.54       </span>
+<span class="co">#&gt;  7       1 1_naAR_CESD   NA.WITH      NAVAR  -0.23 -0.45       0.00       </span>
+<span class="co">#&gt;  8       1 1_naAR_CESD   NAONNA.WITH  NAVAR  -0.13 -0.46       0.21       </span>
+<span class="co">#&gt;  9       1 1_naAR_CESD   Means        NA     2.26  1.84        2.66       </span>
+<span class="co">#&gt; 10       1 1_naAR_CESD   Means        NAONNA 1.08  0.63        1.62       </span>
+<span class="co">#&gt; # ... with 206 more rows</span>
+<span class="fu"><a href="../reference/mplus_compile.html">mplus_compile</a></span><span class="op">(</span>Mplus_file <span class="op">=</span> <span class="va">models</span>, display <span class="op">=</span> <span class="st">"descriptives"</span><span class="op">)</span>
+<span class="co">#&gt; # A tibble: 216 x 8</span>
+<span class="co">#&gt;    dataset_title paramHeader      T     N param  est   lower_2.5ci upper_2.5ci</span>
+<span class="co">#&gt;    &lt;chr&gt;         &lt;chr&gt;        &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;       &lt;chr&gt;      </span>
+<span class="co">#&gt;  1 1_naAR_CESD   NAONNA|NA.ON  2808    94 NA&amp;1   0.20  0.16        0.24       </span>
+<span class="co">#&gt;  2 1_naAR_CESD   NAVAR.|       2808    94 NA     0.92  0.90        0.95       </span>
+<span class="co">#&gt;  3 1_naAR_CESD   Z.ON          2808    94 NAONNA 0.35  0.06        0.63       </span>
+<span class="co">#&gt;  4 1_naAR_CESD   Z.ON          2808    94 NAVAR  0.14  -0.08       0.36       </span>
+<span class="co">#&gt;  5 1_naAR_CESD   Z.ON          2808    94 NA     0.42  0.21        0.63       </span>
+<span class="co">#&gt;  6 1_naAR_CESD   NA.WITH       2808    94 NAONNA 0.22  -0.10       0.54       </span>
+<span class="co">#&gt;  7 1_naAR_CESD   NA.WITH       2808    94 NAVAR  -0.23 -0.45       0.00       </span>
+<span class="co">#&gt;  8 1_naAR_CESD   NAONNA.WITH   2808    94 NAVAR  -0.13 -0.46       0.21       </span>
+<span class="co">#&gt;  9 1_naAR_CESD   Means         2808    94 NA     2.26  1.84        2.66       </span>
+<span class="co">#&gt; 10 1_naAR_CESD   Means         2808    94 NAONNA 1.08  0.63        1.62       </span>
+<span class="co">#&gt; # ... with 206 more rows</span></code></pre></div>
+<p>These can also be found using <code><a href="../reference/mplus_compile.html">?mplus_compile</a></code>.</p>
+<p>Alternatively, you can manually specify which columns are displayed.</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/mplus_compile.html">mplus_compile</a></span><span class="op">(</span>Mplus_file <span class="op">=</span> <span class="va">models</span>, 
+              display <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"dataset"</span>, <span class="st">"dataset_title"</span>, <span class="st">"paramHeader"</span>, <span class="st">"param"</span>, <span class="st">"est"</span><span class="op">)</span><span class="op">)</span>
+<span class="co">#&gt; # A tibble: 216 x 5</span>
+<span class="co">#&gt;    dataset dataset_title paramHeader  param  est  </span>
+<span class="co">#&gt;      &lt;int&gt; &lt;chr&gt;         &lt;chr&gt;        &lt;chr&gt;  &lt;chr&gt;</span>
+<span class="co">#&gt;  1       1 1_naAR_CESD   NAONNA|NA.ON NA&amp;1   0.20 </span>
+<span class="co">#&gt;  2       1 1_naAR_CESD   NAVAR.|      NA     0.92 </span>
+<span class="co">#&gt;  3       1 1_naAR_CESD   Z.ON         NAONNA 0.35 </span>
+<span class="co">#&gt;  4       1 1_naAR_CESD   Z.ON         NAVAR  0.14 </span>
+<span class="co">#&gt;  5       1 1_naAR_CESD   Z.ON         NA     0.42 </span>
+<span class="co">#&gt;  6       1 1_naAR_CESD   NA.WITH      NAONNA 0.22 </span>
+<span class="co">#&gt;  7       1 1_naAR_CESD   NA.WITH      NAVAR  -0.23</span>
+<span class="co">#&gt;  8       1 1_naAR_CESD   NAONNA.WITH  NAVAR  -0.13</span>
+<span class="co">#&gt;  9       1 1_naAR_CESD   Means        NA     2.26 </span>
+<span class="co">#&gt; 10       1 1_naAR_CESD   Means        NAONNA 1.08 </span>
+<span class="co">#&gt; # ... with 206 more rows</span></code></pre></div>
+</div>
+<div id="filtering-parameters-and-parameter-headings" class="section level3">
+<h3 class="hasAnchor">
+<a href="#filtering-parameters-and-parameter-headings" class="anchor"></a>Filtering parameters and parameter headings</h3>
+<p>As well as specifying columns, you can specify which parameters (<code>parameter</code>) or parameter headings (<code>param_header</code>) are shown.</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/mplus_compile.html">mplus_compile</a></span><span class="op">(</span>Mplus_file <span class="op">=</span> <span class="va">models</span>,
+              display <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"dataset"</span>, <span class="st">"dataset_title"</span>, <span class="st">"paramHeader"</span>, <span class="st">"param"</span>, <span class="st">"est"</span><span class="op">)</span>,
+              param_header <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Z.ON"</span>, <span class="st">"NA.WITH"</span><span class="op">)</span>,
+              parameter <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"NAONNA"</span>, <span class="st">"NAVAR"</span><span class="op">)</span><span class="op">)</span>
+<span class="co">#&gt; # A tibble: 30 x 5</span>
+<span class="co">#&gt;    dataset dataset_title paramHeader param  est  </span>
+<span class="co">#&gt;      &lt;int&gt; &lt;chr&gt;         &lt;chr&gt;       &lt;chr&gt;  &lt;chr&gt;</span>
+<span class="co">#&gt;  1       1 1_naAR_CESD   Z.ON        NAONNA 0.35 </span>
+<span class="co">#&gt;  2       1 1_naAR_CESD   Z.ON        NAVAR  0.14 </span>
+<span class="co">#&gt;  3       1 1_naAR_CESD   NA.WITH     NAONNA 0.22 </span>
+<span class="co">#&gt;  4       1 1_naAR_CESD   NA.WITH     NAVAR  -0.23</span>
+<span class="co">#&gt;  5       1 1_naAR_CESD   NAONNA.WITH NAVAR  -0.13</span>
+<span class="co">#&gt;  6       2 2_naAR_CESD   Z.ON        NAONNA -0.07</span>
+<span class="co">#&gt;  7       2 2_naAR_CESD   Z.ON        NAVAR  0.05 </span>
+<span class="co">#&gt;  8       2 2_naAR_CESD   NA.WITH     NAONNA 0.39 </span>
+<span class="co">#&gt;  9       2 2_naAR_CESD   NA.WITH     NAVAR  0.52 </span>
+<span class="co">#&gt; 10       2 2_naAR_CESD   NAONNA.WITH NAVAR  -0.04</span>
+<span class="co">#&gt; # ... with 20 more rows</span></code></pre></div>
+<p>The function uses partial filtering, which means that all words that contain a specified string will be displayed (as shown below). This makes it easier to quickly extract multiple parameters or parameter headings, like those that end in “.WITH”. In this case it extracts NA.WITH, NAONNA.WITH, PA.WITH, etc.</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/mplus_compile.html">mplus_compile</a></span><span class="op">(</span>Mplus_file <span class="op">=</span> <span class="va">models</span>,
+              param_header <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">".WITH"</span><span class="op">)</span><span class="op">)</span>
+<span class="co">#&gt; # A tibble: 36 x 13</span>
+<span class="co">#&gt;    dataset dataset_title     T     N paramHeader param est   posterior_sd pval </span>
+<span class="co">#&gt;      &lt;int&gt; &lt;chr&gt;         &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;       &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;        &lt;chr&gt;</span>
+<span class="co">#&gt;  1       1 1_naAR_CESD    2808    94 NA.WITH     NAON~ 0.22  0.16         0.10 </span>
+<span class="co">#&gt;  2       1 1_naAR_CESD    2808    94 NA.WITH     NAVAR -0.23 0.12         0.03 </span>
+<span class="co">#&gt;  3       1 1_naAR_CESD    2808    94 NAONNA.WITH NAVAR -0.13 0.17         0.23 </span>
+<span class="co">#&gt;  4       2 2_naAR_CESD   21615   100 NA.WITH     NAON~ 0.39  0.11         0.00 </span>
+<span class="co">#&gt;  5       2 2_naAR_CESD   21615   100 NA.WITH     NAVAR 0.52  0.08         0.00 </span>
+<span class="co">#&gt;  6       2 2_naAR_CESD   21615   100 NAONNA.WITH NAVAR -0.04 0.13         0.37 </span>
+<span class="co">#&gt;  7       3 3_naAR_QIDS   12355   118 NA.WITH     NAON~ 0.36  0.11         0.00 </span>
+<span class="co">#&gt;  8       3 3_naAR_QIDS   12355   118 NA.WITH     NAVAR 0.53  0.07         0.00 </span>
+<span class="co">#&gt;  9       3 3_naAR_QIDS   12355   118 NAONNA.WITH NAVAR 0.36  0.10         0.00 </span>
+<span class="co">#&gt; 10       4 1_paAR_CESD    2808    94 PA.WITH     PAON~ -0.02 0.19         0.45 </span>
+<span class="co">#&gt; # ... with 26 more rows, and 4 more variables: lower_2.5ci &lt;chr&gt;,</span>
+<span class="co">#&gt; #   upper_2.5ci &lt;chr&gt;, sig &lt;lgl&gt;, BetweenWithin &lt;chr&gt;</span></code></pre></div>
+<p>The consequence is that it is possible that more parameters or parameter headings are displayed than expected. For example, if you are after the parameter “NA”, it will also display “NAONNA” or “NAVAR” as these contain “NA”.</p>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/mplus_compile.html">mplus_compile</a></span><span class="op">(</span>Mplus_file <span class="op">=</span> <span class="va">models</span>,
+              display <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"dataset"</span>, <span class="st">"dataset_title"</span>, <span class="st">"paramHeader"</span>, <span class="st">"param"</span>, <span class="st">"est"</span><span class="op">)</span>,
+              parameter <span class="op">=</span> <span class="st">"NA"</span><span class="op">)</span>
+<span class="co">#&gt; # A tibble: 90 x 5</span>
+<span class="co">#&gt;    dataset dataset_title paramHeader  param  est  </span>
+<span class="co">#&gt;      &lt;int&gt; &lt;chr&gt;         &lt;chr&gt;        &lt;chr&gt;  &lt;chr&gt;</span>
+<span class="co">#&gt;  1       1 1_naAR_CESD   NAONNA|NA.ON NA&amp;1   0.20 </span>
+<span class="co">#&gt;  2       1 1_naAR_CESD   NAVAR.|      NA     0.92 </span>
+<span class="co">#&gt;  3       1 1_naAR_CESD   Z.ON         NAONNA 0.35 </span>
+<span class="co">#&gt;  4       1 1_naAR_CESD   Z.ON         NAVAR  0.14 </span>
+<span class="co">#&gt;  5       1 1_naAR_CESD   Z.ON         NA     0.42 </span>
+<span class="co">#&gt;  6       1 1_naAR_CESD   NA.WITH      NAONNA 0.22 </span>
+<span class="co">#&gt;  7       1 1_naAR_CESD   NA.WITH      NAVAR  -0.23</span>
+<span class="co">#&gt;  8       1 1_naAR_CESD   NAONNA.WITH  NAVAR  -0.13</span>
+<span class="co">#&gt;  9       1 1_naAR_CESD   Means        NA     2.26 </span>
+<span class="co">#&gt; 10       1 1_naAR_CESD   Means        NAONNA 1.08 </span>
+<span class="co">#&gt; # ... with 80 more rows</span></code></pre></div>
+<p>You can address this issue by using regular expressions (regex). There are many regex rules you can apply, but two useful ones are:</p>
+<ul>
+<li>If a string STARTS with a particular set of characters, use <code><a href="https://rdrr.io/r/base/Arithmetic.html">^</a></code>.
+<ul>
+<li>So if a string starts with NA, use <code>^NA</code>.<br>
+</li>
+</ul>
+</li>
+<li>If a string ENDS with a particular set of characters, use <code><a href="https://rdrr.io/r/base/Extract.html">$</a></code>.
+<ul>
+<li>So if a string ends with NA, use <code>NA$</code>.</li>
+</ul>
+</li>
+</ul>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/mplus_compile.html">mplus_compile</a></span><span class="op">(</span>Mplus_file <span class="op">=</span> <span class="va">models</span>,
+              display <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"dataset"</span>, <span class="st">"dataset_title"</span>, <span class="st">"paramHeader"</span>, <span class="st">"param"</span>, <span class="st">"est"</span><span class="op">)</span>,
+              parameter <span class="op">=</span> <span class="st">"NA$"</span><span class="op">)</span>
+<span class="co">#&gt; # A tibble: 54 x 5</span>
+<span class="co">#&gt;    dataset dataset_title paramHeader param  est  </span>
+<span class="co">#&gt;      &lt;int&gt; &lt;chr&gt;         &lt;chr&gt;       &lt;chr&gt;  &lt;chr&gt;</span>
+<span class="co">#&gt;  1       1 1_naAR_CESD   NAVAR.|     NA     0.92 </span>
+<span class="co">#&gt;  2       1 1_naAR_CESD   Z.ON        NAONNA 0.35 </span>
+<span class="co">#&gt;  3       1 1_naAR_CESD   Z.ON        NA     0.42 </span>
+<span class="co">#&gt;  4       1 1_naAR_CESD   NA.WITH     NAONNA 0.22 </span>
+<span class="co">#&gt;  5       1 1_naAR_CESD   Means       NA     2.26 </span>
+<span class="co">#&gt;  6       1 1_naAR_CESD   Means       NAONNA 1.08 </span>
+<span class="co">#&gt;  7       1 1_naAR_CESD   Variances   NA     1.00 </span>
+<span class="co">#&gt;  8       1 1_naAR_CESD   Variances   NAONNA 1.00 </span>
+<span class="co">#&gt;  9       1 1_naAR_CESD   R2          NA     0.08 </span>
+<span class="co">#&gt; 10       2 2_naAR_CESD   NAVAR.|     NA     0.88 </span>
+<span class="co">#&gt; # ... with 44 more rows</span></code></pre></div>
+<p>You can see that the ‘param’ column in the table above no longer contains NAVAR, as this string doesn’t end in NA. If you want to specify just “NA” and not “NAONNA”, use both <code><a href="https://rdrr.io/r/base/Arithmetic.html">^</a></code> and <code><a href="https://rdrr.io/r/base/Extract.html">$</a></code>. This means the phrase must start and end with NA, and cannot contain anything else in the middle.</p>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/mplus_compile.html">mplus_compile</a></span><span class="op">(</span>Mplus_file <span class="op">=</span> <span class="va">models</span>,
+              display <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"dataset"</span>, <span class="st">"dataset_title"</span>, <span class="st">"paramHeader"</span>, <span class="st">"param"</span>, <span class="st">"est"</span><span class="op">)</span>,
+              parameter <span class="op">=</span> <span class="st">"^NA$"</span><span class="op">)</span>
+<span class="co">#&gt; # A tibble: 30 x 5</span>
+<span class="co">#&gt;    dataset dataset_title paramHeader param est  </span>
+<span class="co">#&gt;      &lt;int&gt; &lt;chr&gt;         &lt;chr&gt;       &lt;chr&gt; &lt;chr&gt;</span>
+<span class="co">#&gt;  1       1 1_naAR_CESD   NAVAR.|     NA    0.92 </span>
+<span class="co">#&gt;  2       1 1_naAR_CESD   Z.ON        NA    0.42 </span>
+<span class="co">#&gt;  3       1 1_naAR_CESD   Means       NA    2.26 </span>
+<span class="co">#&gt;  4       1 1_naAR_CESD   Variances   NA    1.00 </span>
+<span class="co">#&gt;  5       1 1_naAR_CESD   R2          NA    0.08 </span>
+<span class="co">#&gt;  6       2 2_naAR_CESD   NAVAR.|     NA    0.88 </span>
+<span class="co">#&gt;  7       2 2_naAR_CESD   Z.ON        NA    0.39 </span>
+<span class="co">#&gt;  8       2 2_naAR_CESD   Means       NA    1.75 </span>
+<span class="co">#&gt;  9       2 2_naAR_CESD   Variances   NA    1.00 </span>
+<span class="co">#&gt; 10       2 2_naAR_CESD   R2          NA    0.12 </span>
+<span class="co">#&gt; # ... with 20 more rows</span></code></pre></div>
+<p>Other aspects of the tibble that can be adjusted is the rounding, whether standardized output are displayed, whether non-converged models are automatically removed, and whether the content in the ‘define’ component of the output is displayed. More info on these arguments can be found <a href="https://d-vanos.github.io/MplusReadR/reference/mplus_compile.html">here</a>.</p>
+</div>
+<div id="example-3-apa-style-table-options" class="section level3">
+<h3 class="hasAnchor">
+<a href="#example-3-apa-style-table-options" class="anchor"></a>Example 3: APA-style Table Options</h3>
+<p>There are also several display options for the APA-style tables.</p>
+<div id="horizontal-vs-vertical-output" class="section level4">
+<h4 class="hasAnchor">
+<a href="#horizontal-vs-vertical-output" class="anchor"></a>Horizontal vs Vertical Output</h4>
+<p>By default all output is displayed (<code>type = "general"</code>) vertically (<code>orientation = "vertical"</code>) but output can also be displayed horizontally:</p>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># To start, we prepare a simpler dataset containing only the </span>
+<span class="co"># parameter header Z.ON and parameters containing NA. </span>
+<span class="va">tidy_z_on</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mplus_compile.html">mplus_compile</a></span><span class="op">(</span>Mplus_file <span class="op">=</span> <span class="va">models</span>,
+              param_header <span class="op">=</span> <span class="st">"Z.ON"</span>, 
+              param <span class="op">=</span> <span class="st">"^NA"</span>,
+              display <span class="op">=</span> <span class="st">"minimal"</span><span class="op">)</span>
+
+<span class="co"># Displaying the results vertically (the default)</span>
+<span class="fu"><a href="../reference/mplus_apa_table.html">mplus_apa_table</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">tidy_z_on</span>,
+                orientation <span class="op">=</span> <span class="st">"vertical"</span><span class="op">)</span></code></pre></div>
+<table class="table gmisc_table">
+<thead><tr>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey;">
+</th>
+<th style="font-family: Times New Roman, Times, serif; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+dataset
+</th>
+<th style="font-family: Times New Roman, Times, serif; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+dataset_title
+</th>
+<th style="font-family: Times New Roman, Times, serif; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+paramHeader
+</th>
+<th style="font-family: Times New Roman, Times, serif; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+param
+</th>
+<th style="font-family: Times New Roman, Times, serif; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+value
+</th>
+</tr></thead>
+<tbody>
+<tr>
+<td style="font-family: Times New Roman, Times, serif; text-align: left;">
+1
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+1
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+1_naAR_CESD
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+Z.ON
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+NAONNA
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+<b>0.35 <br> [0.06, 0.63]</b>
+</td>
+</tr>
+<tr>
+<td style="font-family: Times New Roman, Times, serif; text-align: left;">
+2
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+1
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+1_naAR_CESD
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+Z.ON
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+NAVAR
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+0.14 <br> [-0.08, 0.36]
+</td>
+</tr>
+<tr>
+<td style="font-family: Times New Roman, Times, serif; text-align: left;">
+3
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+1
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+1_naAR_CESD
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+Z.ON
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+NA
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+<b>0.42 <br> [0.21, 0.63]</b>
+</td>
+</tr>
+<tr>
+<td style="font-family: Times New Roman, Times, serif; text-align: left;">
+4
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+2
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+2_naAR_CESD
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+Z.ON
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+NAONNA
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+-0.07 <br> [-0.34, 0.20]
+</td>
+</tr>
+<tr>
+<td style="font-family: Times New Roman, Times, serif; text-align: left;">
+5
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+2
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+2_naAR_CESD
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+Z.ON
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+NAVAR
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+0.05 <br> [-0.20, 0.29]
+</td>
+</tr>
+<tr>
+<td style="font-family: Times New Roman, Times, serif; text-align: left;">
+6
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+2
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+2_naAR_CESD
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+Z.ON
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+NA
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+<b>0.39 <br> [0.12, 0.65]</b>
+</td>
+</tr>
+<tr>
+<td style="font-family: Times New Roman, Times, serif; text-align: left;">
+7
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+3
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+3_naAR_QIDS
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+Z.ON
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+NAONNA
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+0.05 <br> [-0.11, 0.21]
+</td>
+</tr>
+<tr>
+<td style="font-family: Times New Roman, Times, serif; text-align: left;">
+8
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+3
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+3_naAR_QIDS
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+Z.ON
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+NAVAR
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+<b>0.15 <br> [0.00, 0.28]</b>
+</td>
+</tr>
+<tr>
+<td style="font-family: Times New Roman, Times, serif; text-align: left;">
+9
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+3
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+3_naAR_QIDS
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+Z.ON
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+NA
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+<b>0.70 <br> [0.58, 0.81]</b>
+</td>
+</tr>
+<tr>
+<td style="font-family: Times New Roman, Times, serif; text-align: left;">
+10
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+4
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+1_naAR_SWL
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+Z.ON
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+NAONNA
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+-0.15 <br> [-0.47, 0.17]
+</td>
+</tr>
+<tr>
+<td style="font-family: Times New Roman, Times, serif; text-align: left;">
+11
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+4
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+1_naAR_SWL
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+Z.ON
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+NAVAR
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+-0.14 <br> [-0.38, 0.09]
+</td>
+</tr>
+<tr>
+<td style="font-family: Times New Roman, Times, serif; text-align: left;">
+12
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+4
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+1_naAR_SWL
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+Z.ON
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+NA
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+-0.16 <br> [-0.39, 0.06]
+</td>
+</tr>
+<tr>
+<td style="font-family: Times New Roman, Times, serif; text-align: left;">
+13
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+5
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+2_naAR_SWL
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+Z.ON
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+NAONNA
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+0.18 <br> [-0.09, 0.45]
+</td>
+</tr>
+<tr>
+<td style="font-family: Times New Roman, Times, serif; text-align: left;">
+14
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+5
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+2_naAR_SWL
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+Z.ON
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+NAVAR
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+-0.09 <br> [-0.32, 0.16]
+</td>
+</tr>
+<tr>
+<td style="font-family: Times New Roman, Times, serif; text-align: left;">
+15
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+5
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+2_naAR_SWL
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+Z.ON
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+NA
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+<b>-0.39 <br> [-0.65, -0.12]</b>
+</td>
+</tr>
+<tr>
+<td style="font-family: Times New Roman, Times, serif; text-align: left;">
+16
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+6
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+3_naAR_SWL
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+Z.ON
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+NAONNA
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+0.06 <br> [-0.15, 0.26]
+</td>
+</tr>
+<tr>
+<td style="font-family: Times New Roman, Times, serif; text-align: left;">
+17
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+6
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+3_naAR_SWL
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+Z.ON
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+NAVAR
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+<b>-0.18 <br> [-0.36, -0.00]</b>
+</td>
+</tr>
+<tr>
+<td style="font-family: Times New Roman, Times, serif; border-bottom: 2px solid grey; text-align: left;">
+18
+</td>
+<td style="font-family: Times New Roman, Times, serif; border-bottom: 2px solid grey; text-align: center;">
+6
+</td>
+<td style="font-family: Times New Roman, Times, serif; border-bottom: 2px solid grey; text-align: center;">
+3_naAR_SWL
+</td>
+<td style="font-family: Times New Roman, Times, serif; border-bottom: 2px solid grey; text-align: center;">
+Z.ON
+</td>
+<td style="font-family: Times New Roman, Times, serif; border-bottom: 2px solid grey; text-align: center;">
+NA
+</td>
+<td style="font-family: Times New Roman, Times, serif; border-bottom: 2px solid grey; text-align: center;">
+<b>-0.54 <br> [-0.70, -0.37]</b>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Displaying the results horizontally</span>
+<span class="fu"><a href="../reference/mplus_apa_table.html">mplus_apa_table</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">tidy_z_on</span>,
+                orientation <span class="op">=</span> <span class="st">"horizontal"</span><span class="op">)</span></code></pre></div>
+<table class="table gmisc_table">
+<thead><tr>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey;">
+</th>
+<th style="font-family: Times New Roman, Times, serif; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+dataset
+</th>
+<th style="font-family: Times New Roman, Times, serif; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+dataset_title
+</th>
+<th style="font-family: Times New Roman, Times, serif; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+paramheader: Z.ON <br> param: NAONNA
+</th>
+<th style="font-family: Times New Roman, Times, serif; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+paramheader: Z.ON <br> param: NAVAR
+</th>
+<th style="font-family: Times New Roman, Times, serif; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">
+paramheader: Z.ON <br> param: NA
+</th>
+</tr></thead>
+<tbody>
+<tr>
+<td style="font-family: Times New Roman, Times, serif; text-align: left;">
+1
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+1
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+1_naAR_CESD
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+<b>0.35 <br> [0.06, 0.63]</b>
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+0.14 <br> [-0.08, 0.36]
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+<b>0.42 <br> [0.21, 0.63]</b>
+</td>
+</tr>
+<tr>
+<td style="font-family: Times New Roman, Times, serif; text-align: left;">
+2
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+2
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+2_naAR_CESD
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+-0.07 <br> [-0.34, 0.20]
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+0.05 <br> [-0.20, 0.29]
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+<b>0.39 <br> [0.12, 0.65]</b>
+</td>
+</tr>
+<tr>
+<td style="font-family: Times New Roman, Times, serif; text-align: left;">
+3
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+3
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+3_naAR_QIDS
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+0.05 <br> [-0.11, 0.21]
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+<b>0.15 <br> [0.00, 0.28]</b>
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+<b>0.70 <br> [0.58, 0.81]</b>
+</td>
+</tr>
+<tr>
+<td style="font-family: Times New Roman, Times, serif; text-align: left;">
+4
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+4
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+1_naAR_SWL
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+-0.15 <br> [-0.47, 0.17]
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+-0.14 <br> [-0.38, 0.09]
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+-0.16 <br> [-0.39, 0.06]
+</td>
+</tr>
+<tr>
+<td style="font-family: Times New Roman, Times, serif; text-align: left;">
+5
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+5
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+2_naAR_SWL
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+0.18 <br> [-0.09, 0.45]
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+-0.09 <br> [-0.32, 0.16]
+</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">
+<b>-0.39 <br> [-0.65, -0.12]</b>
+</td>
+</tr>
+<tr>
+<td style="font-family: Times New Roman, Times, serif; border-bottom: 2px solid grey; text-align: left;">
+6
+</td>
+<td style="font-family: Times New Roman, Times, serif; border-bottom: 2px solid grey; text-align: center;">
+6
+</td>
+<td style="font-family: Times New Roman, Times, serif; border-bottom: 2px solid grey; text-align: center;">
+3_naAR_SWL
+</td>
+<td style="font-family: Times New Roman, Times, serif; border-bottom: 2px solid grey; text-align: center;">
+0.06 <br> [-0.15, 0.26]
+</td>
+<td style="font-family: Times New Roman, Times, serif; border-bottom: 2px solid grey; text-align: center;">
+<b>-0.18 <br> [-0.36, -0.00]</b>
+</td>
+<td style="font-family: Times New Roman, Times, serif; border-bottom: 2px solid grey; text-align: center;">
+<b>-0.54 <br> [-0.70, -0.37]</b>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="correlations-tables" class="section level4">
+<h4 class="hasAnchor">
+<a href="#correlations-tables" class="anchor"></a>Correlations Tables</h4>
+<p>You can specify a correlations table using <code>type = "correlation"</code>, and specify the number of tables to display using <code>n_tables</code>.</p>
+<p>You can specify one table (e.g. table 4, <code>n_tables = 4</code>), a range of tables (e.g., tables 3 through 7, <code>n_tables = 3:7</code>), or a specific subset of tables (e.g., tables 1 through 3 and table 5, <code>n_tables = c(1:3, 5)</code>).</p>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># First prepare your correlations table by ensuring only values in param_header "WITH" are shown</span>
+<span class="va">tidy_cor</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mplus_compile.html">mplus_compile</a></span><span class="op">(</span>Mplus_file <span class="op">=</span> <span class="va">models</span>, 
+                            standardized <span class="op">=</span> <span class="cn">TRUE</span>,  
+                            rounding <span class="op">=</span> <span class="fl">3</span>,
+                            param_header <span class="op">=</span> <span class="st">"WITH"</span>,
+                            display <span class="op">=</span> <span class="st">"minimal"</span><span class="op">)</span>
+
+
+<span class="co"># Save your html table as an object</span>
+<span class="va">table</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mplus_apa_table.html">mplus_apa_table</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">tidy_cor</span>, 
+                type <span class="op">=</span> <span class="st">"correlation"</span>,
+                n_tables <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span>, <span class="fl">5</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<p>At this point you can show the correlations table/s in R like this:</p>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">htmltools</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/HTML.html">HTML</a></span><span class="op">(</span><span class="va">table</span><span class="op">)</span></code></pre></div>
+<table class="table gmisc_table">
+<thead>
+<tr>
+<th style="border-top: 2px solid grey;"></th>
+<th colspan="3" style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center; font-family: Times New Roman, Times, serif;">1_naAR_CESD</th>
+</tr>
+<tr>
+<th style="border-bottom: 1px solid grey;"></th>
+<th style="font-family: Times New Roman, Times, serif; border-bottom: 1px solid grey; text-align: center;">NA</th>
+<th style="font-family: Times New Roman, Times, serif; border-bottom: 1px solid grey; text-align: center;">NAONNA</th>
+<th style="font-family: Times New Roman, Times, serif; border-bottom: 1px solid grey; text-align: center;">NAVAR</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="font-family: Times New Roman, Times, serif; text-align: left;">NA</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">-</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">0.222 <br> [-0.099, 0.537]</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">-0.231 <br> [-0.447, 0.000]</td>
+</tr>
+<tr>
+<td style="font-family: Times New Roman, Times, serif; text-align: left;">NAONNA</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;"></td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">-</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">-0.128 <br> [-0.465, 0.209]</td>
+</tr>
+<tr>
+<td style="font-family: Times New Roman, Times, serif; border-bottom: 2px solid grey; text-align: left;">NAVAR</td>
+<td style="font-family: Times New Roman, Times, serif; border-bottom: 2px solid grey; text-align: center;"></td>
+<td style="font-family: Times New Roman, Times, serif; border-bottom: 2px solid grey; text-align: center;"></td>
+<td style="font-family: Times New Roman, Times, serif; border-bottom: 2px solid grey; text-align: center;">-</td>
+</tr>
+</tbody>
+</table>
+<table class="table gmisc_table">
+<thead>
+<tr>
+<th style="border-top: 2px solid grey;"></th>
+<th colspan="3" style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center; font-family: Times New Roman, Times, serif;">2_naAR_CESD</th>
+</tr>
+<tr>
+<th style="border-bottom: 1px solid grey;"></th>
+<th style="font-family: Times New Roman, Times, serif; border-bottom: 1px solid grey; text-align: center;">NA</th>
+<th style="font-family: Times New Roman, Times, serif; border-bottom: 1px solid grey; text-align: center;">NAONNA</th>
+<th style="font-family: Times New Roman, Times, serif; border-bottom: 1px solid grey; text-align: center;">NAVAR</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="font-family: Times New Roman, Times, serif; text-align: left;">NA</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">-</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;"><b>0.393 <br> [0.165, 0.601]</b></td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;"><b>0.517 <br> [0.350, 0.665]</b></td>
+</tr>
+<tr>
+<td style="font-family: Times New Roman, Times, serif; text-align: left;">NAONNA</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;"></td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">-</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">-0.044 <br> [-0.293, 0.209]</td>
+</tr>
+<tr>
+<td style="font-family: Times New Roman, Times, serif; border-bottom: 2px solid grey; text-align: left;">NAVAR</td>
+<td style="font-family: Times New Roman, Times, serif; border-bottom: 2px solid grey; text-align: center;"></td>
+<td style="font-family: Times New Roman, Times, serif; border-bottom: 2px solid grey; text-align: center;"></td>
+<td style="font-family: Times New Roman, Times, serif; border-bottom: 2px solid grey; text-align: center;">-</td>
+</tr>
+</tbody>
+</table>
+<table class="table gmisc_table">
+<thead>
+<tr>
+<th style="border-top: 2px solid grey;"></th>
+<th colspan="3" style="font-weight: 900; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center; font-family: Times New Roman, Times, serif;">2_paAR_CESD</th>
+</tr>
+<tr>
+<th style="border-bottom: 1px solid grey;"></th>
+<th style="font-family: Times New Roman, Times, serif; border-bottom: 1px solid grey; text-align: center;">PA</th>
+<th style="font-family: Times New Roman, Times, serif; border-bottom: 1px solid grey; text-align: center;">PAONPA</th>
+<th style="font-family: Times New Roman, Times, serif; border-bottom: 1px solid grey; text-align: center;">PAVAR</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="font-family: Times New Roman, Times, serif; text-align: left;">PA</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">-</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">-0.054 <br> [-0.304, 0.203]</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">0.043 <br> [-0.174, 0.257]</td>
+</tr>
+<tr>
+<td style="font-family: Times New Roman, Times, serif; text-align: left;">PAONPA</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;"></td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">-</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">-0.217 <br> [-0.456, 0.039]</td>
+</tr>
+<tr>
+<td style="font-family: Times New Roman, Times, serif; border-bottom: 2px solid grey; text-align: left;">PAVAR</td>
+<td style="font-family: Times New Roman, Times, serif; border-bottom: 2px solid grey; text-align: center;"></td>
+<td style="font-family: Times New Roman, Times, serif; border-bottom: 2px solid grey; text-align: center;"></td>
+<td style="font-family: Times New Roman, Times, serif; border-bottom: 2px solid grey; text-align: center;">-</td>
+</tr>
+</tbody>
+</table>
+<p>Or you can save the html table/s like this:</p>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<code class="sourceCode R">
+<span class="fu"><a href="https://rdrr.io/r/base/write.html">write</a></span><span class="op">(</span><span class="va">table</span>, file <span class="op">=</span> <span class="st">"table.html"</span>, sep <span class="op">=</span> <span class="st">"\n"</span><span class="op">)</span></code></pre></div>
+</div>
+<div id="multilevel-reliability" class="section level4">
+<h4 class="hasAnchor">
+<a href="#multilevel-reliability" class="anchor"></a>Multilevel Reliability</h4>
+<p>For this example we will be loading in another dataset which contains alpha coefficients.</p>
+<p><strong>Step 1: rename data files</strong><br>
+The data files originally look like this:</p>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">dir</span> <span class="op">&lt;-</span> <span class="st">"reliability"</span>
+<span class="fu"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span><span class="op">(</span><span class="va">dir</span><span class="op">)</span>
+<span class="co">#&gt;  [1] "ESM_S1_FEEL NA (3item) ML-alpha.inp"    </span>
+<span class="co">#&gt;  [2] "ESM_S1_FEEL NA (3item) ML-alpha.out"    </span>
+<span class="co">#&gt;  [3] "ESM_S1_FEEL reap (2item) ML-alpha.inp"  </span>
+<span class="co">#&gt;  [4] "ESM_S1_FEEL reap (2item) ML-alpha.out"  </span>
+<span class="co">#&gt;  [5] "ESM_S2_LELODEF NA (5item) ML-alpha.inp" </span>
+<span class="co">#&gt;  [6] "ESM_S2_LELODEF NA (5item) ML-alpha.out" </span>
+<span class="co">#&gt;  [7] "ESM_S2_LELODEF rum (2item) ML-alpha.inp"</span>
+<span class="co">#&gt;  [8] "ESM_S2_LELODEF rum (2item) ML-alpha.out"</span>
+<span class="co">#&gt;  [9] "ESM_S3_YLL NA (4item) ML-alpha.inp"     </span>
+<span class="co">#&gt; [10] "ESM_S3_YLL NA (4item) ML-alpha.out"     </span>
+<span class="co">#&gt; [11] "ESM_S3_YLL rum (3item) ML-alpha.inp"    </span>
+<span class="co">#&gt; [12] "ESM_S3_YLL rum (3item) ML-alpha.out"    </span>
+<span class="co">#&gt; [13] "ESM_S4_MBP NA (4item) ML-alpha.inp"     </span>
+<span class="co">#&gt; [14] "ESM_S4_MBP NA (4item) ML-alpha.out"     </span>
+<span class="co">#&gt; [15] "ESM_S5_BJ NA (7item) ML-alpha.inp"      </span>
+<span class="co">#&gt; [16] "ESM_S5_BJ NA (7item) ML-alpha.out"      </span>
+<span class="co">#&gt; [17] "ESM_S5_BJ rum (2item) ML-alpha.inp"     </span>
+<span class="co">#&gt; [18] "ESM_S5_BJ rum (2item) ML-alpha.out"</span></code></pre></div>
+<p>They contain prohibited characters such as brackets, spaces, and dashes, so these files will need to be renamed.</p>
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<code class="sourceCode R">
+<span class="fu"><a href="../reference/fix_file_names.html">fix_file_names</a></span><span class="op">(</span>dir <span class="op">=</span> <span class="va">dir</span><span class="op">)</span></code></pre></div>
+<p>The files are now ready to be read in.</p>
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span><span class="op">(</span><span class="va">dir</span><span class="op">)</span>
+<span class="co">#&gt;  [1] "ESM_S1_FEEL_NA__3item__ML_alpha.inp"    </span>
+<span class="co">#&gt;  [2] "ESM_S1_FEEL_NA__3item__ML_alpha.out"    </span>
+<span class="co">#&gt;  [3] "ESM_S1_FEEL_reap__2item__ML_alpha.inp"  </span>
+<span class="co">#&gt;  [4] "ESM_S1_FEEL_reap__2item__ML_alpha.out"  </span>
+<span class="co">#&gt;  [5] "ESM_S2_LELODEF_NA__5item__ML_alpha.inp" </span>
+<span class="co">#&gt;  [6] "ESM_S2_LELODEF_NA__5item__ML_alpha.out" </span>
+<span class="co">#&gt;  [7] "ESM_S2_LELODEF_rum__2item__ML_alpha.inp"</span>
+<span class="co">#&gt;  [8] "ESM_S2_LELODEF_rum__2item__ML_alpha.out"</span>
+<span class="co">#&gt;  [9] "ESM_S3_YLL_NA__4item__ML_alpha.inp"     </span>
+<span class="co">#&gt; [10] "ESM_S3_YLL_NA__4item__ML_alpha.out"     </span>
+<span class="co">#&gt; [11] "ESM_S3_YLL_rum__3item__ML_alpha.inp"    </span>
+<span class="co">#&gt; [12] "ESM_S3_YLL_rum__3item__ML_alpha.out"    </span>
+<span class="co">#&gt; [13] "ESM_S4_MBP_NA__4item__ML_alpha.inp"     </span>
+<span class="co">#&gt; [14] "ESM_S4_MBP_NA__4item__ML_alpha.out"     </span>
+<span class="co">#&gt; [15] "ESM_S5_BJ_NA__7item__ML_alpha.inp"      </span>
+<span class="co">#&gt; [16] "ESM_S5_BJ_NA__7item__ML_alpha.out"      </span>
+<span class="co">#&gt; [17] "ESM_S5_BJ_rum__2item__ML_alpha.inp"     </span>
+<span class="co">#&gt; [18] "ESM_S5_BJ_rum__2item__ML_alpha.out"</span></code></pre></div>
+<p><strong>Step 2: Read in the data</strong><br>
+Remember to set <code>recursive = TRUE</code> regardless of whether there are subfolders, and set <code>target</code> to the directory your files are stored in.</p>
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">reliability_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/MplusAutomation/man/readModels.html">readModels</a></span><span class="op">(</span>target <span class="op">=</span> <span class="va">dir</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<span class="co">#&gt; Reading model:  reliability_fixed/ESM_S1_FEEL_NA__3item__ML_alpha.out </span>
+<span class="co">#&gt; Reading model:  reliability_fixed/ESM_S1_FEEL_reap__2item__ML_alpha.out </span>
+<span class="co">#&gt; Reading model:  reliability_fixed/ESM_S2_LELODEF_NA__5item__ML_alpha.out </span>
+<span class="co">#&gt; Reading model:  reliability_fixed/ESM_S2_LELODEF_rum__2item__ML_alpha.out </span>
+<span class="co">#&gt; Reading model:  reliability_fixed/ESM_S3_YLL_NA__4item__ML_alpha.out </span>
+<span class="co">#&gt; Reading model:  reliability_fixed/ESM_S3_YLL_rum__3item__ML_alpha.out </span>
+<span class="co">#&gt; Reading model:  reliability_fixed/ESM_S4_MBP_NA__4item__ML_alpha.out </span>
+<span class="co">#&gt; Reading model:  reliability_fixed/ESM_S5_BJ_NA__7item__ML_alpha.out </span>
+<span class="co">#&gt; Reading model:  reliability_fixed/ESM_S5_BJ_rum__2item__ML_alpha.out</span></code></pre></div>
+<p><strong>Step 3: Create a tidy dataset</strong></p>
+<p>For a multilevel reliability table we only want the parameters than contain ALPHA, and we’re only interested in the estimates and confidence intervals so we’ll set <code>display = minimal</code>. The alpha coefficients are unstandardized, so we need to set <code>standardized = FALSE</code>.</p>
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">reliability_tidy</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mplus_compile.html">mplus_compile</a></span><span class="op">(</span>Mplus_file <span class="op">=</span> <span class="va">reliability_data</span>,
+                        standardized <span class="op">=</span> <span class="cn">FALSE</span>,
+                        parameter <span class="op">=</span> <span class="st">"ALPHA"</span>,
+                        display <span class="op">=</span> <span class="st">"minimal"</span><span class="op">)</span>
+
+<span class="va">reliability_tidy</span>
+<span class="co">#&gt; # A tibble: 18 x 7</span>
+<span class="co">#&gt;    dataset dataset_title      paramHeader    param est   lower_2.5ci upper_2.5ci</span>
+<span class="co">#&gt;      &lt;int&gt; &lt;chr&gt;              &lt;chr&gt;          &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;       &lt;chr&gt;      </span>
+<span class="co">#&gt;  1       1 ESM_S1_FEEL_NA__3~ New.Additiona~ ALPH~ 0.62  0.61        0.63       </span>
+<span class="co">#&gt;  2       1 ESM_S1_FEEL_NA__3~ New.Additiona~ ALPH~ 0.89  0.85        0.92       </span>
+<span class="co">#&gt;  3       2 ESM_S1_FEEL_reap_~ New.Additiona~ ALPH~ 0.59  0.58        0.60       </span>
+<span class="co">#&gt;  4       2 ESM_S1_FEEL_reap_~ New.Additiona~ ALPH~ 0.99  0.98        0.99       </span>
+<span class="co">#&gt;  5       3 ESM_S2_LELODEF_NA~ New.Additiona~ ALPH~ 0.72  0.72        0.73       </span>
+<span class="co">#&gt;  6       3 ESM_S2_LELODEF_NA~ New.Additiona~ ALPH~ 0.93  0.91        0.95       </span>
+<span class="co">#&gt;  7       4 ESM_S2_LELODEF_ru~ New.Additiona~ ALPH~ 0.40  0.38        0.42       </span>
+<span class="co">#&gt;  8       4 ESM_S2_LELODEF_ru~ New.Additiona~ ALPH~ 0.81  0.75        0.86       </span>
+<span class="co">#&gt;  9       5 ESM_S3_YLL_NA__4i~ New.Additiona~ ALPH~ 0.74  0.73        0.76       </span>
+<span class="co">#&gt; 10       5 ESM_S3_YLL_NA__4i~ New.Additiona~ ALPH~ 0.95  0.92        0.97       </span>
+<span class="co">#&gt; 11       6 ESM_S3_YLL_rum__3~ New.Additiona~ ALPH~ 0.74  0.73        0.76       </span>
+<span class="co">#&gt; 12       6 ESM_S3_YLL_rum__3~ New.Additiona~ ALPH~ 0.98  0.97        0.99       </span>
+<span class="co">#&gt; 13       7 ESM_S4_MBP_NA__4i~ New.Additiona~ ALPH~ 0.74  0.73        0.76       </span>
+<span class="co">#&gt; 14       7 ESM_S4_MBP_NA__4i~ New.Additiona~ ALPH~ 0.92  0.89        0.94       </span>
+<span class="co">#&gt; 15       8 ESM_S5_BJ_NA__7it~ New.Additiona~ ALPH~ 0.74  0.73        0.75       </span>
+<span class="co">#&gt; 16       8 ESM_S5_BJ_NA__7it~ New.Additiona~ ALPH~ 0.94  0.92        0.96       </span>
+<span class="co">#&gt; 17       9 ESM_S5_BJ_rum__2i~ New.Additiona~ ALPH~ 0.68  0.67        0.70       </span>
+<span class="co">#&gt; 18       9 ESM_S5_BJ_rum__2i~ New.Additiona~ ALPH~ 0.85  0.78        0.90</span></code></pre></div>
+<p><strong>Step 4: Apply APA formatting</strong></p>
+<p>In this case we are only interested in standard formatting, but we want the results to be displayed horizontally by param (ALPHAW and ALPHAB) so we set <code>orientation = "horizontal"</code>.</p>
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">reliability_table</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mplus_apa_table.html">mplus_apa_table</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">reliability_tidy</span>,
+                                     type <span class="op">=</span> <span class="st">"general"</span>,
+                                     orientation <span class="op">=</span> <span class="st">"horizontal"</span><span class="op">)</span>
+
+<span class="fu">htmltools</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/HTML.html">HTML</a></span><span class="op">(</span><span class="va">reliability_table</span><span class="op">)</span></code></pre></div>
+<table class="table gmisc_table">
+<thead><tr>
+<th style="border-bottom: 1px solid grey; border-top: 2px solid grey;"></th>
+<th style="font-family: Times New Roman, Times, serif; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">dataset</th>
+<th style="font-family: Times New Roman, Times, serif; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">dataset_title</th>
+<th style="font-family: Times New Roman, Times, serif; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">paramheader: New.Additional.Parameters <br> param:  ALPHAW</th>
+<th style="font-family: Times New Roman, Times, serif; border-bottom: 1px solid grey; border-top: 2px solid grey; text-align: center;">paramheader: New.Additional.Parameters <br> param:  ALPHAB</th>
+</tr></thead>
+<tbody>
+<tr>
+<td style="font-family: Times New Roman, Times, serif; text-align: left;">1</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">1</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">ESM_S1_FEEL_NA__3item__ML_alpha</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;"><b>0.62 <br> [0.61, 0.63]</b></td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;"><b>0.89 <br> [0.85, 0.92]</b></td>
+</tr>
+<tr>
+<td style="font-family: Times New Roman, Times, serif; text-align: left;">2</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">2</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">ESM_S1_FEEL_reap__2item__ML_alpha</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;"><b>0.59 <br> [0.58, 0.60]</b></td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;"><b>0.99 <br> [0.98, 0.99]</b></td>
+</tr>
+<tr>
+<td style="font-family: Times New Roman, Times, serif; text-align: left;">3</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">3</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">ESM_S2_LELODEF_NA__5item__ML_alpha</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;"><b>0.72 <br> [0.72, 0.73]</b></td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;"><b>0.93 <br> [0.91, 0.95]</b></td>
+</tr>
+<tr>
+<td style="font-family: Times New Roman, Times, serif; text-align: left;">4</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">4</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">ESM_S2_LELODEF_rum__2item__ML_alpha</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;"><b>0.40 <br> [0.38, 0.42]</b></td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;"><b>0.81 <br> [0.75, 0.86]</b></td>
+</tr>
+<tr>
+<td style="font-family: Times New Roman, Times, serif; text-align: left;">5</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">5</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">ESM_S3_YLL_NA__4item__ML_alpha</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;"><b>0.74 <br> [0.73, 0.76]</b></td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;"><b>0.95 <br> [0.92, 0.97]</b></td>
+</tr>
+<tr>
+<td style="font-family: Times New Roman, Times, serif; text-align: left;">6</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">6</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">ESM_S3_YLL_rum__3item__ML_alpha</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;"><b>0.74 <br> [0.73, 0.76]</b></td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;"><b>0.98 <br> [0.97, 0.99]</b></td>
+</tr>
+<tr>
+<td style="font-family: Times New Roman, Times, serif; text-align: left;">7</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">7</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">ESM_S4_MBP_NA__4item__ML_alpha</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;"><b>0.74 <br> [0.73, 0.76]</b></td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;"><b>0.92 <br> [0.89, 0.94]</b></td>
+</tr>
+<tr>
+<td style="font-family: Times New Roman, Times, serif; text-align: left;">8</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">8</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;">ESM_S5_BJ_NA__7item__ML_alpha</td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;"><b>0.74 <br> [0.73, 0.75]</b></td>
+<td style="font-family: Times New Roman, Times, serif; text-align: center;"><b>0.94 <br> [0.92, 0.96]</b></td>
+</tr>
+<tr>
+<td style="font-family: Times New Roman, Times, serif; border-bottom: 2px solid grey; text-align: left;">9</td>
+<td style="font-family: Times New Roman, Times, serif; border-bottom: 2px solid grey; text-align: center;">9</td>
+<td style="font-family: Times New Roman, Times, serif; border-bottom: 2px solid grey; text-align: center;">ESM_S5_BJ_rum__2item__ML_alpha</td>
+<td style="font-family: Times New Roman, Times, serif; border-bottom: 2px solid grey; text-align: center;"><b>0.68 <br> [0.67, 0.70]</b></td>
+<td style="font-family: Times New Roman, Times, serif; border-bottom: 2px solid grey; text-align: center;"><b>0.85 <br> [0.78, 0.90]</b></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Step 5: Save your table</strong></p>
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/write.html">write</a></span><span class="op">(</span><span class="va">reliability_table</span>, file <span class="op">=</span> <span class="st">"reliability_table.html"</span>, sep <span class="op">=</span> <span class="st">"\n"</span><span class="op">)</span></code></pre></div>
+</div>
+</div>
 </div>
   </div>
 
