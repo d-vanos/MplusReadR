@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MplusReadR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
       </span>
     </div>
 
@@ -77,7 +77,6 @@
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Model Convergence</h1>
-                        <h4 class="author">Danielle van Os</h4>
             
       
       
@@ -87,9 +86,125 @@
 
     
     
-<div id="coming-soon" class="section level2">
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">MplusReadR</span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/michaelhallquist/MplusAutomation">MplusAutomation</a></span><span class="op">)</span>
+<span class="co">#&gt; Warning: package 'MplusAutomation' was built under R version 4.0.3</span>
+<span class="co">#&gt; Version:  0.8</span>
+<span class="co">#&gt; We work hard to write this free software. Please help us get credit by citing: </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Hallquist, M. N. &amp; Wiley, J. F. (2018). MplusAutomation: An R Package for Facilitating Large-Scale Latent Variable Analyses in Mplus. Structural Equation Modeling, 25, 621-638. doi: 10.1080/10705511.2017.1402334.</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; -- see citation("MplusAutomation").</span></code></pre></div>
+<div id="checking-models-convergence" class="section level2">
 <h2 class="hasAnchor">
-<a href="#coming-soon" class="anchor"></a>Coming Soon!</h2>
+<a href="#checking-models-convergence" class="anchor"></a>Checking Models Convergence</h2>
+<p>You can check whether each model in a list of Mplus models converged using <code><a href="../reference/mplus_converge.html">mplus_converge()</a></code>. This checks whether the model contains confidence intervals, as non-converged models will not.</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Load the data</span>
+<span class="va">bivariate_models</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/MplusAutomation/man/readModels.html">readModels</a></span><span class="op">(</span><span class="st">'bivariate_models'</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Check model convergence</span>
+<span class="va">converged</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mplus_converge.html">mplus_converge</a></span><span class="op">(</span><span class="va">bivariate_models</span><span class="op">)</span></code></pre></div>
+<table class="table">
+<colgroup>
+<col width="12%">
+<col width="36%">
+<col width="42%">
+<col width="10%">
+</colgroup>
+<thead><tr class="header">
+<th align="right">list_number</th>
+<th align="left">file_name</th>
+<th align="left">dataset_title</th>
+<th align="left">converged</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">bivariate_models.1_panaVAR_SWL.out</td>
+<td align="left">Dejonckheere 2019 reanalysis 1_DEJON2017;</td>
+<td align="left">FALSE</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="left">bivariate_models.10_panaVAR_SWL.out</td>
+<td align="left">Dejonckheere 2019 reanalysis 10_SCHMI;</td>
+<td align="left">TRUE</td>
+</tr>
+<tr class="odd">
+<td align="right">3</td>
+<td align="left">bivariate_models.11_panaVAR_SWL.out</td>
+<td align="left">Dejonckheere 2019 reanalysis 11_SELS2017;</td>
+<td align="left">TRUE</td>
+</tr>
+<tr class="even">
+<td align="right">4</td>
+<td align="left">bivariate_models.12_panaVAR_SWL.out</td>
+<td align="left">Dejonckheere 2019 reanalysis 12_SELS2018;</td>
+<td align="left">TRUE</td>
+</tr>
+<tr class="odd">
+<td align="right">5</td>
+<td align="left">bivariate_models.15_panaVAR_SWL.out</td>
+<td align="left">Dejonckheere 2019 reanalysis 15_VANDE;</td>
+<td align="left">FALSE</td>
+</tr>
+<tr class="even">
+<td align="right">6</td>
+<td align="left">bivariate_models.2_panaVAR_SWL.out</td>
+<td align="left">Dejonckheere 2019 reanalysis 2_DEJON2018;</td>
+<td align="left">TRUE</td>
+</tr>
+<tr class="odd">
+<td align="right">7</td>
+<td align="left">bivariate_models.3_panaVAR_SWL.out</td>
+<td align="left">Dejonckheere 2019 reanalysis 3_HEINI;</td>
+<td align="left">TRUE</td>
+</tr>
+<tr class="even">
+<td align="right">8</td>
+<td align="left">bivariate_models.5_panaVAR_SWL.out</td>
+<td align="left">Dejonckheere 2019 reanalysis 5_KOVAL;</td>
+<td align="left">TRUE</td>
+</tr>
+<tr class="odd">
+<td align="right">9</td>
+<td align="left">bivariate_models.6_panaVAR_SWL.out</td>
+<td align="left">Dejonckheere 2019 reanalysis 6_PEW1;</td>
+<td align="left">TRUE</td>
+</tr>
+<tr class="even">
+<td align="right">10</td>
+<td align="left">bivariate_models.7_panaVAR_SWL.out</td>
+<td align="left">Dejonckheere 2019 reanalysis 7_PEW2;</td>
+<td align="left">TRUE</td>
+</tr>
+<tr class="odd">
+<td align="right">11</td>
+<td align="left">bivariate_models.8_panaVAR_SWL.out</td>
+<td align="left">Dejonckheere 2019 reanalysis 8_PEW3;</td>
+<td align="left">TRUE</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="removing-non-converged-models" class="section level2">
+<h2 class="hasAnchor">
+<a href="#removing-non-converged-models" class="anchor"></a>Removing Non-converged Models</h2>
+<p>Non-converged models in a list of Mplus output can be removed using <code><a href="../reference/mplus_remove_converge.html">mplus_remove_converge()</a></code>.</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">new_models</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mplus_remove_converge.html">mplus_remove_converge</a></span><span class="op">(</span><span class="va">bivariate_models</span><span class="op">)</span></code></pre></div>
+<ul>
+<li>Number of models <strong>before</strong> removal of non-converged models: 11<br>
+</li>
+<li>Number of models <strong>after</strong> removal of non-converged models: 9</li>
+</ul>
+<p>Non-converged models are removed automatically when model output is compiled using <code><a href="../reference/mplus_compile.html">mplus_compile()</a></code>. If there were any non-converged models, a warning will be displayed, as shown below.</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/mplus_compile.html">mplus_compile</a></span><span class="op">(</span><span class="va">bivariate_models</span><span class="op">)</span>
+<span class="co">#&gt; It appears 2 models did not converge. These were removed. Run mplus_converge(Mplus_file) to check these.</span></code></pre></div>
+<p>You can prevent automatic removal of non-converged models using <code>converged = FALSE</code>. However, if the output contains any non-converged models, not removing them will prevent the compilation of the model output.</p>
 </div>
   </div>
 

@@ -1,6 +1,5 @@
 ---
 title: "Model Convergence"
-author: "Danielle van Os"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Model Convergence}
@@ -15,4 +14,57 @@ knitr::opts_chunk$set(
 )
 ```
 
-## Coming Soon!
+```{r}
+library(MplusReadR)
+library(MplusAutomation)
+```
+
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
+library(knitr)
+```
+
+## Checking Models Convergence
+You can check whether each model in a list of Mplus models converged using `mplus_converge()`. 
+This checks whether the model contains confidence intervals, as non-converged models will not. 
+
+
+```{r, message = FALSE, results = 'hide'}
+# Load the data
+bivariate_models <- readModels('bivariate_models', recursive = TRUE)
+```
+
+```{r}
+# Check model convergence
+converged <- mplus_converge(bivariate_models)
+```
+
+```{r, echo = FALSE}
+# Print table 
+kable(converged)
+```
+
+
+
+
+## Removing Non-converged Models 
+
+Non-converged models in a list of Mplus output can be removed using `mplus_remove_converge()`.
+
+```{r}
+new_models <- mplus_remove_converge(bivariate_models)
+
+```
+
+
+* Number of models **before** removal of non-converged models: `r length(bivariate_models)`  
+* Number of models **after** removal of non-converged models: `r length(new_models)`    
+
+Non-converged models are removed automatically when model output is compiled using `mplus_compile()`. 
+If there were any non-converged models, a warning will be displayed, as shown below.
+
+```{r, results = 'hide'}
+mplus_compile(bivariate_models)
+```
+
+You can prevent automatic removal of non-converged models using `converged = FALSE`. However, if the output contains any non-converged models,
+not removing them will prevent the compilation of the model output. 
