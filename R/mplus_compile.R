@@ -26,7 +26,7 @@ mplus_compile <- function(Mplus_file, rounding = 2, param_header = NULL, paramet
   if(converged == TRUE){
     Mplus_file_clean <- mplus_remove_converge(Mplus_file)
     if(length(Mplus_file_clean) < length(Mplus_file)){
-      message(paste("It appears",(length(Mplus_file)-length(Mplus_file_clean)), "models did not converge. These were removed. Run model_converge(Mplus_file) to check these."))
+      message(paste("It appears",(length(Mplus_file)-length(Mplus_file_clean)), "models did not converge. These were removed. Run mplus_converge(Mplus_file) to check these."))
     }
   }
 
