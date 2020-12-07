@@ -36,7 +36,7 @@ mplus_compile <- function(Mplus_file, rounding = 2, param_header = NULL, paramet
         filter(converged == FALSE)
 
     if(nrow(none_converged_models) > 0){
-      warning(paste0("There are non-converged models in this list. Run model_converge() to check these, or set converged = TRUE to remove automatically."))
+      warning(paste0("There are non-converged models in this list. Run mplus_converge() to check these, or set converged = TRUE to remove automatically."))
     }
   }
 
