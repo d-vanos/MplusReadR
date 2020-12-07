@@ -176,7 +176,7 @@ mplus_apa_table <- function(data,
       # Check if SDs are actually in the dataset
       if(is.element("posterior_sd", colnames(data))){
         data <- data %>%
-          mutate(mean_sd = paste0(as.character(est), " (", as.character(posterior_sd), ")")) %>%
+          mutate(value = paste0(as.character(est), " (", as.character(posterior_sd), ")")) %>%
           select(-c(est, posterior_sd))
       }
       else{
@@ -193,7 +193,7 @@ mplus_apa_table <- function(data,
       data <- data %>%
         mutate(paramheader_param = paste("paramheader:", paramHeader, "<br> param: ", param)) %>%
         select(-c(paramHeader, param)) %>%
-        pivot_wider(id_cols = c("dataset", "dataset_title"), names_from = "paramheader_param", values_from = " value")
+        pivot_wider(id_cols = c("dataset", "dataset_title"), names_from = "paramheader_param", values_from = "value")
 
 
     }
