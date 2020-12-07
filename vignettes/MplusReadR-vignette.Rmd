@@ -1,5 +1,5 @@
 ---
-title: "MplusReadR Vignette"
+title: "Getting Started"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{MplusReadR-vignette}
@@ -218,7 +218,7 @@ htmltools::HTML(table)
 
 Or you can save the html table/s like this:
 
-```{r}
+```{r, eval = FALSE}
 
 write(table, file = "table.html", sep = "\n")
 
@@ -295,7 +295,7 @@ htmltools::HTML(reliability_table)
 
 **Step 5: Save your table**
 
-```{r}
+```{r, eval = FALSE}
 write(reliability_table, file = "reliability_table.html", sep = "\n")
 ```
 

@@ -92,27 +92,6 @@ mplus_corr <- function(data, triangle = "lower", CI = TRUE, dataset_n = 1){
 }
 
 
-
-
-
-# Create list of many APA correlations tables (NOT SURE IF STILL RELEVANT)
-# mplus_multiple_corr <- function(data, triangle = "lower", CI = TRUE){
-#
-#   new_list <- list()
-#
-#   # Checks number of unique datasets
-#   for(n in 1:length(unique(data$dataset))) {
-#
-#     data <- data %>%
-#       filter(dataset == n)
-#
-#     cor_matrix <- mplus_corr(data = data, triangle = triangle, CI = CI)
-#
-#     new_list[[n]] <- cor_matrix
-#   }
-#   return(list)
-# }
-
 ##########################-
 #### APA-Style Tables ####
 ##########################-
