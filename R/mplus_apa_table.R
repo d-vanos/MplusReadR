@@ -27,7 +27,7 @@ merge_CIs <- function(data, bold = TRUE){
   }
   else if (bold == FALSE){
     data <- data %>%
-      mutate(value = paste0(as.character(est), " <br> [", as.character(lower_2.5ci), ", ", as.character(upper_2.5ci), "]")) %>%
+      mutate( value = paste0(as.character(est), " <br> [", as.character(lower_2.5ci), ", ", as.character(upper_2.5ci), "]")) %>%
       select(-c(lower_2.5ci, upper_2.5ci))
   }
   return(data)
@@ -49,16 +49,17 @@ mplus_corr <- function(data, triangle = "lower", CI = TRUE, dataset_n = 1){
              bold_end = ifelse(((lower_2.5ci < 0 & upper_2.5ci < 0)| (lower_2.5ci > 0 & upper_2.5ci > 0)), "</b>", ""),
              value = paste0(bold_start, as.character(est), " <br> [", as.character(lower_2.5ci), ", ", as.character(upper_2.5ci), "]", bold_end),
              paramHeader = sapply(strsplit(paramHeader, "\\."), "[", 1)) %>%
-      select(paramHeader, param, value)
+      select(paramHeader, param,  value)
     }
   }
 
   if(CI == FALSE){
     # Don't include CIs
     data <- data %>%
+      filter(dataset == dataset_n) %>%
       mutate(paramHeader = sapply(strsplit(paramHeader, "\\."), "[", 1)) %>%
-      select(paramHeader, param, est) %>%
-      rename(value = est)
+      rename(value = est) %>%
+      select(paramHeader, param, value)
   }
 
   # Determine number of unique paramheaders and params
@@ -125,6 +126,14 @@ mplus_corr <- function(data, triangle = "lower", CI = TRUE, dataset_n = 1){
 #' @import htmlTable
 #' @import reshape2
 #'
+#' @param type words words
+#' @param bold words words
+#' @param CI words words
+#' @param SD words words
+#' @param triangle words words
+#' @param header words words
+#' @param orientation words words
+#'
 #' @return APA-style table of Mplus output.
 #' @export
 #'
@@ -184,7 +193,7 @@ mplus_apa_table <- function(data,
       data <- data %>%
         mutate(paramheader_param = paste("paramheader:", paramHeader, "<br> param: ", param)) %>%
         select(-c(paramHeader, param)) %>%
-        pivot_wider(id_cols = c("dataset", "dataset_title"), names_from = "paramheader_param", values_from = "value")
+        pivot_wider(id_cols = c("dataset", "dataset_title"), names_from = "paramheader_param", values_from = " value")
 
 
     }

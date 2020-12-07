@@ -15,6 +15,21 @@ mplus_apa_table(
   orientation = "vertical"
 )
 }
+\arguments{
+\item{type}{words words}
+
+\item{bold}{words words}
+
+\item{CI}{words words}
+
+\item{SD}{words words}
+
+\item{triangle}{words words}
+
+\item{header}{words words}
+
+\item{orientation}{words words}
+}
 \value{
 APA-style table of Mplus output.
 }
