@@ -24,6 +24,8 @@ fix_file_names <- function(dir){
   if(length(setdiff(new_file_names, old_file_names)) > 0){
     mapply(file.rename, paste0(dir, "/", old_file_names), paste0(dir, "/", new_file_names))
   }
+
+  print("Success!")
 }
 
 

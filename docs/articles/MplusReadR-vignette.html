@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MplusReadR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.1</span>
       </span>
     </div>
 
@@ -89,13 +89,9 @@
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">MplusReadR</span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/michaelhallquist/MplusAutomation">MplusAutomation</a></span><span class="op">)</span>
-<span class="co">#&gt; Warning: package 'MplusAutomation' was built under R version 4.0.3</span>
-<span class="co">#&gt; Version:  0.8</span>
-<span class="co">#&gt; We work hard to write this free software. Please help us get credit by citing: </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Hallquist, M. N. &amp; Wiley, J. F. (2018). MplusAutomation: An R Package for Facilitating Large-Scale Latent Variable Analyses in Mplus. Structural Equation Modeling, 25, 621-638. doi: 10.1080/10705511.2017.1402334.</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; -- see citation("MplusAutomation").</span></code></pre></div>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://github.com/gluc/data.tree">data.tree</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/rich-iannone/DiagrammeR">DiagrammeR</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span></code></pre></div>
 <div id="a-basic-example" class="section level2">
 <h2 class="hasAnchor">
 <a href="#a-basic-example" class="anchor"></a>A Basic Example</h2>
@@ -116,7 +112,7 @@
 <span class="co">#&gt; [1] "test_file_1.out" "test_file_2.out" "test_file_3.out"</span></code></pre></div>
 <p>After this has been completed, load in your data. In this example we will be loading in a set of univariate models which include the predictor variables Negative Affect (na) and Positive Affect (pa), and the outcome variables depression (DEPR) and satisfaction with life (SWL). Always include <code>recursive = TRUE</code>, even if all your files are located in one folder, as this will ensure that the dataset titles format properly.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">models</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/MplusAutomation/man/readModels.html">readModels</a></span><span class="op">(</span><span class="st">'univariate_models'</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">models</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/MplusAutomation/man/readModels.html">readModels</a></span><span class="op">(</span><span class="va">dir</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="co">#&gt; Reading model:  univariate_models/predictDEP/naAR predict DEPR/1_naAR_CESD.out </span>
 <span class="co">#&gt; Reading model:  univariate_models/predictDEP/naAR predict DEPR/2_naAR_CESD.out </span>
 <span class="co">#&gt; Reading model:  univariate_models/predictDEP/naAR predict DEPR/3_naAR_QIDS.out </span>
@@ -193,7 +189,7 @@
 <p>The second aim of MplusReadR is to format the tabulated Mplus output created above into a html APA-style table. The default behaviour of this function is to apply 12 point Times New Roman and general APA table formatting, with estimates and confidence intervals merged together, as shown below. Note this only shows a subset of the data.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Creating a subset of the tidy data</span>
-<span class="va">tidy_data_short</span> <span class="op">&lt;-</span> <span class="va">tidy_data</span> <span class="op">%&gt;%</span> <span class="fu">slice</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, <span class="fl">37</span><span class="op">:</span><span class="fl">39</span><span class="op">)</span>
+<span class="va">tidy_data_short</span> <span class="op">&lt;-</span> <span class="va">tidy_data</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html">slice</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, <span class="fl">37</span><span class="op">:</span><span class="fl">39</span><span class="op">)</span>
 
 <span class="co"># Generating a APA-style html table</span>
 <span class="va">table</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mplus_apa_table.html">mplus_apa_table</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">tidy_data_short</span><span class="op">)</span> 

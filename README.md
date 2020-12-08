@@ -1,14 +1,15 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# MplusReadR
+# [MplusReadR](https://d-vanos.github.io/MplusReadR/index.html)
 
 Mplus is a latent variable modeling program. Model output generated from
 Mplus can be imported into R and manipulated using the
 [MplusAutomation](https://cran.r-project.org/web/packages/MplusAutomation/index.html)
-package. MplusReadR extends on MplusAutomation by making it easier to
-compile the output from multiple Mplus output files into tidy datasets,
-and to manipulate these to create APA-style html tables.
+package. [MplusReadR](https://d-vanos.github.io/MplusReadR/index.html)
+extends on MplusAutomation by making it easier to compile the output
+from multiple Mplus output files into tidy datasets, and to manipulate
+these to create APA-style html tables.
 
 ## Installation
 
@@ -24,7 +25,11 @@ install_github("d-vanos/MplusReadR")
 library(MplusReadR)
 ```
 
-The latest version of the package can be installed by re-running
+In general it is not necessary to update to the most recent version of
+listed packages (if this message is displayed) though you may wish to do
+so if there are issues installing the package.
+
+The latest version of MplusReadR can be installed by re-running
 `install_github("d-vanos/MplusReadR")`.
 
 ## Getting Started
@@ -36,11 +41,36 @@ second is a set of functions which are based off those created for the
 ‘dejon’ project, but these can be used more widely across different
 types of Mplus output. These functions all start with ‘mplus’.
 
-Each set of functions has its own tutorial. To learn about the
-functions, check out the [Dejon
-vignette](https://d-vanos.github.io/MplusReadR/articles/Dejon-vignette.html)
-and the general [MplusReadR
-vignette](https://d-vanos.github.io/MplusReadR/articles/MplusReadR-vignette.html).
+Each set of functions has its own tutorial. To get started, check out
+[this
+tutorial](https://d-vanos.github.io/MplusReadR/articles/MplusReadR-vignette.html).
+
+## Troubleshooting
+
+If you are having trouble downloading the package, try the following
+options:
+
+#### Update R
+
+MplusReadR was built on R version 4.0.3, and depends on R version 2.10
+or above. To update R, follow [these
+instructions](https://uvastatlab.github.io/phdplus/installR.html).
+
+#### Install Required Packages
+
+If you get an error similar to this when attempting to install
+MplusReadr:  
+`Error in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck =
+vI[[i]]) : there is no package called 'reshape2'`
+
+Try installing these packages individually. For example,
+`install.packages("reshape2")`.
+
+#### Install RTools
+
+If the suggestions above do not fix the issue, try installing [Rtools
+for Windows](https://cran.r-project.org/bin/windows/Rtools/) or [Xcode
+for Mac](https://apps.apple.com/au/app/xcode/id497799835?mt=12).
 
 ## References
 

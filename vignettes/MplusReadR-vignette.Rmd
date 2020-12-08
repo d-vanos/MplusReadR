@@ -14,16 +14,14 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup}
+```{r setup, warning = FALSE, message = FALSE}
 library(MplusReadR)
 library(MplusAutomation)
-```
-
-```{r, echo = FALSE, message = FALSE, warning = FALSE}
 library(data.tree)
 library(DiagrammeR)
 library(dplyr)
 ```
+
 
 ```{r, echo = FALSE}
 # Prepare some files as an example 
@@ -55,8 +53,12 @@ renamed_files
 
 After this has been completed, load in your data. In this example we will be loading in a set of univariate models which include the predictor variables Negative Affect (na) and Positive Affect (pa), and the outcome variables depression (DEPR) and satisfaction with life (SWL). Always include `recursive = TRUE`, even if all your files are located in one folder, as this will ensure that the dataset titles format properly. 
 
+```{r, echo = FALSE}
+dir <- "univariate_models"
+```
+
 ```{r}
-models <- readModels('univariate_models', recursive = TRUE)
+models <- readModels(dir, recursive = TRUE)
 ```
 
 The models read in by the `readModels()` function will be saved as a list. The structure of each of the models is similar to that shown below. The collation function `mplus_compile` extracts data primarily from the section called 'parameters'. This structure is only displayed to show how the model output is read into R via `readModels()` and where the collated data in `mplus_compile()` comes from.
