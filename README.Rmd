@@ -42,11 +42,9 @@ Each set of functions has its own tutorial. To get started, check out [this tuto
 ## Troubleshooting
 
 If you are having trouble downloading the package, try the following options:
-
 #### Update R
 
 MplusReadR was built on R version 4.0.3, and depends on R version 2.10 or above. To update R, follow [these instructions](https://uvastatlab.github.io/phdplus/installR.html).
-
 
 #### Install Required Packages
 
@@ -55,7 +53,7 @@ If you get an error similar to this when attempting to install MplusReadR:
 
 Try installing these packages individually. For example, `install.packages("reshape2")`. 
 
-#### Install RTools
+#### Install RTools/Xcode
 
 If the suggestions above do not fix the issue, try installing [Rtools for Windows](https://cran.r-project.org/bin/windows/Rtools/) or [Xcode for Mac](https://apps.apple.com/au/app/xcode/id497799835?mt=12).  
 

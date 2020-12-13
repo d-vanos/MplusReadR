@@ -136,7 +136,7 @@ mplus_apa_table <- function(data,
     }
 
     # Include just CIs (no SDs) - CI columns must exist and must be selected
-    else if(CI == TRUE){
+    else if(SD == FALSE & CI == TRUE){
       if(is.element("lower_2.5ci", colnames(data)) & is.element("upper_2.5ci", colnames(data))){
         data <- merge_CIs(data = data, bold = bold)
       }
@@ -150,7 +150,7 @@ mplus_apa_table <- function(data,
     }
 
     # Include just SDs (no CIs) - SD column must exist and must be selected
-    else if(SD == TRUE){
+    else if(SD == TRUE & CI == FALSE){
 
       # Check if SDs are actually in the dataset
       if(is.element("posterior_sd", colnames(data))){
@@ -164,6 +164,24 @@ mplus_apa_table <- function(data,
         stop()
       }
 
+    }
+
+    else if(SD == FALSE & CI == FALSE){
+
+      # If CIs exist, remove them
+      if(is.element("lower_2.5ci", colnames(data)) & is.element("upper_2.5ci", colnames(data))){
+        data <- data %>%
+          select(-c(lower_2.5ci, upper_2.5ci))
+      }
+      # If SD exists, remove it
+      if(is.element("posterior_sd", colnames(data))){
+        data <- data %>%
+          select(-posterior_sd)
+      }
+
+      # Rename est
+      data <- data %>%
+        rename(value = est)
     }
 
 
