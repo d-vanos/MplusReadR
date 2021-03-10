@@ -39,7 +39,15 @@ mplus_tidy <- function(Mplus_file, model_n = 1, param_header = NULL, parameter =
 
       warning("This model does not appear to contain unstandardized estimates. Have you tried using standardized output (e.g., standardized = TRUE)?")
       stop()
+    }
+    # If confidence intervals are not found under 'unstandardized' (e.g., maximum likelihood models)
+    if (setequal(intersect(x = c("lower_2.5ci", "upper_2.5ci"), y = names(data)), c("lower_2.5ci", "upper_2.5ci")) == FALSE){
 
+      CIs <- as_tibble(Mplus_file[[model_n]]$parameters$ci.unstandardized)[c("paramHeader", "param", "low2.5", "up2.5")]
+      data <- left_join(data, CIs, by = c("paramHeader", "param"))
+      data <- data %>%
+        rename(lower_2.5ci = low2.5,
+               upper_2.5ci = up2.5)
     }
   }
 
