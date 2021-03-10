@@ -17,7 +17,14 @@
 
 
 # This function takes the tidy data function and applies it to multiple mplus files in an mplus model list
-mplus_compile <- function(Mplus_file, rounding = 2, param_header = NULL, parameter = NULL, display = "all", standardized = TRUE, converged = TRUE, define = FALSE){
+mplus_compile <- function(Mplus_file,
+                          rounding = 2,
+                          param_header = NULL,
+                          parameter = NULL,
+                          display = "all",
+                          standardized = TRUE,
+                          converged = TRUE,
+                          define = FALSE){
 
   # Initializing the variable used in the loop below
   data <- tibble()
@@ -31,7 +38,9 @@ mplus_compile <- function(Mplus_file, rounding = 2, param_header = NULL, paramet
   }
 
   if(converged == FALSE){
-    none_converged_models <- Mplus_file_clean %>%
+    Mplus_file_clean <- Mplus_file
+
+    none_converged_models <- Mplus_file %>%
         mplus_converge() %>%
         filter(converged == FALSE)
 
