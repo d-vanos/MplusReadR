@@ -31,3 +31,16 @@ check_numeric <- function(data){
   }
   return(numeric_cols)
 }
+
+
+# Only keeps the last part of the file name
+shorten_file_name <- function(string){
+
+  str_match_position <- regexpr("[^\\.]+\\.[^\\.]+$", string)
+
+  short_file_name <- substr(x = string,
+                            start = str_match_position[1],
+                            stop = str_match_position[1] + attr(str_match_position, which = "match.length"))
+
+  return(short_file_name)
+}

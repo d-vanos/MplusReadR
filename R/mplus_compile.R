@@ -12,6 +12,7 @@
 #' @param standardized Whether standardized or unstandardized output should be used for univariate and bivariate models. Defaults to TRUE.
 #' @param converged If TRUE, removes non-converged models.
 #' @param define Displays a column containing information from the 'define' input in the Mplus file. Defaults to FALSE.
+#' @param dir Directory of the data.
 #' @return A tibble containing specified variables and parameters from multiple Mplus models.
 #' @export
 
@@ -24,14 +25,15 @@ mplus_compile <- function(Mplus_file,
                           display = "all",
                           standardized = TRUE,
                           converged = TRUE,
-                          define = FALSE){
+                          define = FALSE,
+                          dir = getwd()){
 
   # Initializing the variable used in the loop below
   data <- tibble()
 
   # Remove non-converged models
   if(converged == TRUE){
-    Mplus_file_clean <- mplus_remove_converge(Mplus_file)
+    Mplus_file_clean <- mplus_remove_converge(Mplus_file, dir = dir)
     if(length(Mplus_file_clean) < length(Mplus_file)){
       message(paste("It appears",(length(Mplus_file)-length(Mplus_file_clean)), "models did not converge. These were removed. Run mplus_converge(Mplus_file) to check these."))
     }

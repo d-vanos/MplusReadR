@@ -12,7 +12,7 @@
 #' @export
 
 # Check whether each model in an Mplus list converged
-mplus_converge <- function(Mplus_file){
+mplus_converge <- function(Mplus_file, dir = getwd()){
 
   # Initialising the variable used in the loop below
   data <- tibble()
@@ -23,11 +23,29 @@ mplus_converge <- function(Mplus_file){
     colnames <- paste0(colnames(Mplus_file[[model_n]]$parameters$unstandardized), collapse = " ")
 
     data[model_n, "list_number"] <- model_n # Makes it easy to determine which model in the list of models it was
-    data[model_n, "file_name"] <- names(Mplus_file[model_n])
+    data[model_n, "file_name"] <- shorten_file_name(names(Mplus_file[model_n])) # 'shorten_file_name()' function can be found in 'mplus_helper_functions.R'
     data[model_n, "dataset_title"] <- as.character(Mplus_file[[model_n]]$input$title)
-    data[model_n, "converged"] <- ifelse(grepl("lower_2.5ci", colnames), "TRUE", "FALSE")
+    data[model_n, "converged_cis"] <- ifelse(grepl("lower_2.5ci", colnames), "TRUE", "FALSE")
+    data[model_n, "converged_text"] <- any(grep(pattern = "THE MODEL ESTIMATION TERMINATED NORMALLY",
+                                                readLines(paste0(dir, "/", data[model_n, "file_name"]))))
 
   }
+
+  # Remove unnecessary columns (we only need to know which converged, not the method of checking convergence)
+  data <- data %>%
+    mutate(converged = ifelse(converged_cis == TRUE | converged_text == TRUE, yes = TRUE, no = FALSE)) %>%
+    select(-c("converged_cis", "converged_text"))
+
+
+  # Check if dataset titles exist in the Mplus_file
+  if(all(data$dataset_title == "")){
+    data <- data %>%
+      select(-dataset_title)
+
+    warning("The Mplus file/s do not appear to contain dataset titles so the 'dataset title' column has been removed.")
+  }
+
+
   return(data)
 }
 
@@ -44,9 +62,9 @@ mplus_converge <- function(Mplus_file){
 #' @seealso \code{\link[MplusReadR]{mplus_converge}}
 
 # Check whether each model in an Mplus list converged and remove those that did not
-mplus_remove_converge <- function(Mplus_model){
+mplus_remove_converge <- function(Mplus_model, dir = getwd()){
   # Create a table of values indicating which models did or did not converge
-  data <- mplus_converge(Mplus_model)
+  data <- mplus_converge(Mplus_model, dir = dir)
 
   # Create a list of models that did not converge and save names
   not_converged <- as_vector(data %>%
