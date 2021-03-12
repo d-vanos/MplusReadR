@@ -43,7 +43,7 @@ mplus_compile <- function(Mplus_file,
     Mplus_file_clean <- Mplus_file
 
     none_converged_models <- Mplus_file %>%
-        mplus_converge() %>%
+        mplus_converge(dir = dir) %>%
         filter(converged == FALSE)
 
     if(nrow(none_converged_models) > 0){
