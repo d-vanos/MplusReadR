@@ -125,6 +125,20 @@ mplus_apa_table <- function(data,
                             orientation = "vertical",
                             n_tables = NULL){
 
+  #### Make sure dataset number exists ####
+  if(!"dataset" %in% colnames(data)){
+
+    # Assign dataset number based on value of dataset title
+    title <- as_tibble(unique(data$dataset_title))
+    title <- title %>%
+      mutate(dataset = seq.int(nrow(.))) %>%
+      rename(dataset_title = value)
+    data <- data %>%
+      full_join(title, by = "dataset_title") %>%
+      select(dataset, everything()) %>%
+      arrange(dataset)
+  }
+
   #### General APA Table ####
   if(type == "general"){
 
