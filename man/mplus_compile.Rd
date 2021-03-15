@@ -12,7 +12,8 @@ mplus_compile(
   display = "all",
   standardized = TRUE,
   converged = TRUE,
-  define = FALSE
+  define = FALSE,
+  dir = getwd()
 )
 }
 \arguments{
@@ -32,6 +33,8 @@ Defaults to all available parameters.}
 \item{converged}{If TRUE, removes non-converged models.}
 
 \item{define}{Displays a column containing information from the 'define' input in the Mplus file. Defaults to FALSE.}
+
+\item{dir}{Directory of the data.}
 }
 \value{
 A tibble containing specified variables and parameters from multiple Mplus models.
